@@ -7,7 +7,7 @@
 # Para DESATIVAR, apague o link (deixe só o código e a barra).
 # Linhas que começam com # são só anotações e são ignoradas.
 
-ERZCF6 | 
+ERZCF6 | https://www.instagram.com/toniiiih_/
 YPMYHJ | 
 SZZDNX | 
 JJDSDZ | 
