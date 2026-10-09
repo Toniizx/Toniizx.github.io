@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Painel de Cartões</title>
+<style>
+  :root { --bg: #f4f5f7; --card: #fff; --text: #1d2330; --muted: #687083; --border: #e3e6ec;
+          --livre: #8a93a6; --ativo: #1f9d55; --erro: #d64545; --accent: #2f6fed; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111419; --card: #1a1e25; --text: #e8eaef; --muted: #9aa1b0; --border: #2a303a;
+            --ativo: #4ade80; --erro: #ff6b6b; --accent: #6b9bff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 28px 16px 60px; }
+  h1 { font-size: 22px; margin: 0 0 16px; }
+  .resumo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .resumo button { text-align: left; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; color: var(--text); font: inherit; cursor: pointer; }
+  .resumo button.sel { outline: 2px solid var(--accent); }
+  .resumo b { display: block; font-size: 24px; }
+  .resumo span { color: var(--muted); font-size: 13px; }
+  .barra { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .barra input { flex: 1 1 220px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); font: inherit; }
+  a.btn { display: inline-block; padding: 9px 14px; border-radius: 10px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; white-space: nowrap; }
+  .lista { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .item { display: grid; grid-template-columns: 90px 90px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-top: 1px solid var(--border); }
+  .item:first-child { border-top: 0; }
+  .cod { font: 600 15px ui-monospace, Consolas, monospace; letter-spacing: 1px; }
+  .tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor; justify-self: start; }
+  .tag.livre { color: var(--livre); } .tag.ativo { color: var(--ativo); } .tag.erro { color: var(--erro); }
+  .info { min-width: 0; }
+  .cliente { font-weight: 600; }
+  .link { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .item a.testar { color: var(--accent); font-size: 14px; }
+  label.btn2 { display: inline-block; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; white-space: nowrap; }
+  label.btn2 input { display: none; }
+  .nota { color: var(--muted); font-size: 13px; margin: -4px 0 12px; }
+  .vazio, .aviso { padding: 20px; text-align: center; color: var(--muted); }
+  @media (max-width: 600px) {
+    .item { grid-template-columns: auto 1fr; }
+    .info { grid-column: 1 / -1; }
+    .item a.testar { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Painel de Cartões</h1>
+  <div class="resumo">
+    <button data-f="todos"><b id="nTodos">–</b><span>Todos</span></button>
+    <button data-f="livre"><b id="nLivre">–</b><span>Livres</span></button>
+    <button data-f="ativo"><b id="nAtivo">–</b><span>Ativados</span></button>
+  </div>
+  <div class="barra">
+    <input id="busca" placeholder="Buscar código ou cliente…" autocomplete="off">
+    <label class="btn2">Abrir planilha de clientes<input type="file" id="planilha" accept=".csv,text/csv"></label>
+    <a class="btn" id="editar" target="_blank" rel="noopener">Ativar / editar cartões</a>
+  </div>
+  <p class="nota" id="nota">Os nomes dos clientes ficam só na sua planilha (clientes-privado.csv). Ao abrir aqui, ela é lida só neste navegador — nada é enviado para a internet.</p>
+  <div id="lista" class="lista"><div class="vazio">Carregando…</div></div>
+</main>
+
+<script src="cartoes.js"></script>
+<script>
+let cartoes = [];
+let clientes = {};
+try { clientes = JSON.parse(localStorage.getItem('clientes') || '{}'); } catch { clientes = {}; }
+
+// Lê a planilha (CSV do Excel, separada por ; ou ,): 1ª coluna = código, 2ª = cliente
+function lerPlanilha(texto) {
+  const mapa = {};
+  texto.replace(/^\uFEFF/, '').split(/\r?\n/).forEach((linha) => {
+    const sep = linha.includes(';') ? ';' : ',';
+    const [codigo = '', cliente = ''] = linha.split(sep).map((p) => p.trim().replace(/^"|"$/g, ''));
+    if (FORMATO_CODIGO.test(codigo.toUpperCase()) && cliente) mapa[codigo.toUpperCase()] = cliente;
+  });
+  return mapa;
+}
+
+function nomeDe(c) {
+  return clientes[c.codigo] || '';
+}
+let filtro = 'todos';
+const base = location.href.replace(/painel\.html.*$/, '');
+
+document.getElementById('editar').href = 'https://github.com/' + CONFIG.repositorio + '/edit/main/cartoes.txt';
+
+function el(tag, cls, texto) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (texto !== undefined) n.textContent = texto;
+  return n;
+}
+
+function desenhar() {
+  const q = document.getElementById('busca').value.trim().toLowerCase();
+  const nomes = { livre: 'Livre', ativo: 'Ativado', erro: 'Link inválido' };
+  const visiveis = cartoes.filter((c) =>
+    (filtro === 'todos' || c.status === filtro || (filtro === 'ativo' && c.status === 'erro')) &&
+    (!q || c.codigo.toLowerCase().includes(q) || nomeDe(c).toLowerCase().includes(q)));
+
+  document.querySelectorAll('.resumo button').forEach((b) => b.classList.toggle('sel', b.dataset.f === filtro));
+  const lista = document.getElementById('lista');
+  if (!visiveis.length) return lista.replaceChildren(el('div', 'vazio', 'Nenhum cartão encontrado.'));
+
+  lista.replaceChildren(...visiveis.map((c) => {
+    const item = el('div', 'item');
+    const info = el('div', 'info');
+    info.append(el('div', 'cliente', nomeDe(c) || '—'));
+    if (c.link) info.append(el('div', 'link', c.link));
+    const testar = el('a', 'testar', 'Testar');
+    testar.href = base + '?' + c.codigo;
+    testar.target = '_blank';
+    item.append(el('span', 'cod', c.codigo), el('span', 'tag ' + c.status, nomes[c.status]), info, testar);
+    return item;
+  }));
+}
+
+document.querySelectorAll('.resumo button').forEach((b) => b.addEventListener('click', () => { filtro = b.dataset.f; desenhar(); }));
+document.getElementById('busca').addEventListener('input', desenhar);
+document.getElementById('planilha').addEventListener('change', async (e) => {
+  const arquivo = e.target.files[0];
+  if (!arquivo) return;
+  clientes = lerPlanilha(await arquivo.text());
+  try { localStorage.setItem('clientes', JSON.stringify(clientes)); } catch {}
+  document.getElementById('nota').textContent = 'Planilha carregada: ' + Object.keys(clientes).length + ' cliente(s). Fica guardada só neste navegador.';
+  desenhar();
+});
+
+carregarCartoes().then((lista) => {
+  cartoes = lista;
+  document.getElementById('nTodos').textContent = lista.length;
+  document.getElementById('nLivre').textContent = lista.filter((c) => c.status === 'livre').length;
+  document.getElementById('nAtivo').textContent = lista.filter((c) => c.status !== 'livre').length;
+  desenhar();
+}).catch((e) => {
+  document.getElementById('lista').replaceChildren(el('div', 'aviso', e.message));
+});
+</script>
+</body>
+</html>

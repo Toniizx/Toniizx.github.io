@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cartão de avaliação</title>
+<style>
+  :root { --bg: #f4f5f7; --card: #fff; --text: #1d2330; --muted: #687083; --accent: #f5b400; --border: #e3e6ec; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111419; --card: #1a1e25; --text: #e8eaef; --muted: #9aa1b0; --border: #2a303a; }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 36px 28px; max-width: 380px; width: 100%; text-align: center; }
+  .icone { font-size: 44px; color: var(--accent); letter-spacing: 2px; margin-bottom: 8px; }
+  h1 { font-size: 22px; margin: 0 0 10px; }
+  p { color: var(--muted); margin: 0 0 14px; }
+  .codigo { display: inline-block; margin-top: 8px; font: 600 15px ui-monospace, Consolas, monospace; letter-spacing: 2px;
+            padding: 6px 12px; border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); }
+  .marca { margin-top: 22px; font-size: 13px; color: var(--muted); }
+  .botao { display: inline-block; margin-top: 6px; padding: 10px 18px; border-radius: 10px; background: #25d366; color: #fff; font-weight: 600; text-decoration: none; }
+  .carregando { width: 34px; height: 34px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: gira .8s linear infinite; margin: 0 auto; }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div id="carregando" class="carregando" aria-label="Carregando"></div>
+
+<main id="pagina" class="card" hidden>
+  <div class="icone">★★★★★</div>
+  <h1 id="titulo"></h1>
+  <p id="texto"></p>
+  <a id="contato" class="botao" hidden>Falar com o vendedor</a>
+  <div><span id="codigo" class="codigo" hidden></span></div>
+  <div id="marca" class="marca" hidden></div>
+</main>
+
+<script src="cartoes.js"></script>
+<script>
+(async () => {
+  const codigo = decodeURIComponent(location.search.replace(/^\?(c=)?/, '')).trim().toUpperCase();
+
+  function mostrar(titulo, texto) {
+    document.getElementById('titulo').textContent = titulo;
+    document.getElementById('texto').textContent = texto;
+    if (FORMATO_CODIGO.test(codigo)) {
+      const el = document.getElementById('codigo');
+      el.textContent = 'Código: ' + codigo;
+      el.hidden = false;
+    }
+    if (CONFIG.contato) {
+      const el = document.getElementById('contato');
+      el.href = CONFIG.contato;
+      el.hidden = false;
+    }
+    if (CONFIG.marca) {
+      const el = document.getElementById('marca');
+      el.textContent = CONFIG.marca;
+      el.hidden = false;
+    }
+    document.getElementById('carregando').hidden = true;
+    document.getElementById('pagina').hidden = false;
+  }
+
+  if (!codigo) {
+    return mostrar('Cartões de avaliação', 'Aponte a câmera do celular para o QR Code do cartão para deixar sua avaliação.');
+  }
+
+  try {
+    const cartoes = await carregarCartoes();
+    const cartao = cartoes.find((c) => c.codigo === codigo);
+    if (!cartao) {
+      return mostrar('Código não encontrado', 'Este QR Code não é reconhecido. Confira se escaneou o cartão correto.');
+    }
+    if (cartao.status === 'ativo') {
+      return location.replace(cartao.link);
+    }
+    mostrar('Cartão ainda não ativado',
+      'Este cartão de avaliação ainda não foi configurado. Se você é o dono do estabelecimento, fale com quem te vendeu o cartão para ativá-lo.');
+  } catch (e) {
+    mostrar('Algo deu errado', 'Não foi possível abrir este cartão agora. Verifique sua internet e tente novamente.');
+  }
+})();
+</script>
+</body>
+</html>

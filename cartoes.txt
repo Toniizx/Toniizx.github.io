@@ -1,0 +1,21 @@
+# LISTA DE CARTÕES (pública: NÃO escreva nomes de clientes aqui)
+# Cada linha:  CÓDIGO | Link da página de avaliação do Google
+#
+# Para ATIVAR um cartão, cole o link depois da barra na linha do código. Exemplo:
+#   K7P2QX | https://g.page/r/XXXXXXXX/review
+#
+# Para DESATIVAR, apague o link (deixe só o código e a barra).
+# Linhas que começam com # são só anotações e são ignoradas.
+
+ERZCF6 | 
+YPMYHJ | 
+SZZDNX | 
+JJDSDZ | 
+63N388 | 
+RK92P5 | 
+BGRRS5 | 
+J786JC | 
+7FK49V | 
+WV3F7R | 
+T4WS74 | 
+W3MYUS | 

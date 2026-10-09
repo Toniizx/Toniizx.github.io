@@ -1,0 +1,8 @@
+{
+  "name": "gerador-adesivos",
+  "private": true,
+  "description": "Gera códigos novos e os PDFs dos adesivos para a gráfica",
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}
