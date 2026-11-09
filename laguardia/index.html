@@ -11,715 +11,607 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: site de uma página, menu de vidro fixo, seções em faixas sobre fundo marinho com brilhos; tudo em cards de vidro */
+/* Layout: relatório de consultoria em formato de site; menu fixo branco, abertura em faixa marinho, cada seção com título à esquerda e conteúdo à direita */
 :root{
-  --bg:#070b22; --bg-2:#0c1232;
-  --glass:rgba(255,255,255,.05); --glass-2:rgba(255,255,255,.085); --glass-3:rgba(255,255,255,.13);
-  --stroke:rgba(255,255,255,.10); --stroke-2:rgba(255,255,255,.22);
-  --text:#e9ecfb; --muted:#a2a9cf; --dim:#7279a3;
-  --gold:#e4bf6a; --gold-soft:rgba(228,191,106,.14);
-  --blue:#8496ff; --blue-soft:rgba(132,150,255,.16);
-  --ok:#5edbaa; --ok-soft:rgba(94,219,170,.13);
-  --bad:#ff8f80; --bad-soft:rgba(255,143,128,.12);
-  --paper:#ffffff; --paper-ink:#1b2558; --link:#1a0dab; --url:#4d5156;
-  --display:"Sora",ui-sans-serif,system-ui,sans-serif;
-  --body:"Manrope",ui-sans-serif,system-ui,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --r:18px; --nav:68px;
-  color-scheme:dark;
+  --navy:#1b2558; --navy-2:#2b3670; --ink:#151a36; --text:#2c3148; --muted:#5f6579; --faint:#8b90a3;
+  --line:#dfe2ea; --line-2:#c9cddb; --bg:#ffffff; --alt:#f5f6f9; --tint:#eef0f6;
+  --gold:#9a772a; --ok:#1e7a52; --bad:#b03a2e;
+  --on-navy:#ffffff; --on-navy-2:#c3c8e2; --on-navy-line:rgba(255,255,255,.18);
+  --font:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --nav:64px;
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:70;background:var(--bg)}
-.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.fx::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(60rem 36rem at 85% -8%,rgba(98,116,255,.30),transparent 60%),
-  radial-gradient(44rem 30rem at -10% 30%,rgba(228,191,106,.13),transparent 60%),
-  radial-gradient(50rem 34rem at 60% 110%,rgba(80,96,230,.20),transparent 60%)}
-.fx::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%)}
-.page{position:relative;z-index:1}
-.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-a{color:inherit}
-img{max-width:100%}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
-h1,h2,h3,h4{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.015em;color:var(--text)}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{margin:0;color:var(--ink);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
 p{margin:0}
-.mono{font-family:var(--mono)}
-.num{font-variant-numeric:tabular-nums}
-
-/* vidro */
-.g{background:linear-gradient(180deg,var(--glass-2),var(--glass));border:1px solid var(--stroke);border-radius:var(--r);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 20px 40px -24px rgba(0,0,0,.6)}
-.g.h{transition:border-color .2s ease,transform .2s ease,background .2s ease}
-.g.h:hover{border-color:var(--stroke-2);transform:translateY(-2px)}
+a{color:var(--navy)}
+:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
 
 /* menu */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:rgba(7,11,34,.62);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid var(--stroke)}
-.nav .wrap{display:flex;align-items:center;gap:18px;height:var(--nav)}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
-.brand img.sk{height:30px;width:auto;display:block}
-.brand .x{color:var(--dim);font-size:13px}
-.brand .lg{background:var(--paper);border-radius:7px;padding:3px 7px;display:flex}
-.brand .lg img{height:22px;width:auto;display:block}
-.menu{display:flex;gap:2px;margin-left:auto;align-items:center}
-.menu a{font-family:var(--display);font-size:13.5px;font-weight:500;color:var(--muted);text-decoration:none;padding:8px 11px;border-radius:9px;white-space:nowrap;transition:color .15s,background .15s}
-.menu a:hover{color:var(--text);background:var(--glass)}
-.menu a.on{color:var(--text);background:var(--glass-3)}
-.menu a.cta{margin-left:8px;color:#1a1608;background:var(--gold);font-weight:600}
-.menu a.cta:hover,.menu a.cta.on{background:#f0cf83;color:#1a1608}
-.burger{display:none;margin-left:auto;font-family:var(--display);font-weight:600;font-size:13.5px;color:var(--text);background:var(--glass-2);border:1px solid var(--stroke);border-radius:10px;padding:8px 14px;cursor:pointer}
-.bar{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:linear-gradient(90deg,var(--blue),var(--gold))}
-@media (max-width:1080px){
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:24px;height:var(--nav)}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;flex:none}
+.brand img{display:block;width:auto}
+.brand .sk{height:34px}
+.brand .lg{height:30px}
+.brand .sep{width:1px;height:28px;background:var(--line-2)}
+.menu{display:flex;margin-left:auto;align-items:stretch;height:100%}
+.menu a{display:flex;align-items:center;padding:0 12px;font-size:14.5px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.menu a:hover{color:var(--ink)}
+.menu a.on{color:var(--navy);border-bottom-color:var(--navy)}
+.burger{display:none;margin-left:auto;font:500 14.5px var(--font);color:var(--navy);background:var(--bg);border:1px solid var(--line-2);border-radius:4px;padding:7px 14px;cursor:pointer}
+@media (max-width:1040px){
   .burger{display:block}
-  .menu{display:none;position:absolute;top:calc(var(--nav) + 8px);left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));flex-direction:column;align-items:stretch;gap:2px;padding:10px;border-radius:16px;background:var(--bg-2);border:1px solid var(--stroke);box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
+  .menu{display:none;position:absolute;top:var(--nav);left:0;right:0;height:auto;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:6px max(24px,env(safe-area-inset-right,0px)) 12px max(24px,env(safe-area-inset-left,0px))}
   .menu.open{display:flex}
-  .menu a{padding:11px 14px;font-size:15px}
-  .menu a.cta{margin:6px 0 0;text-align:center}
+  .menu a{padding:12px 0;border-bottom:1px solid var(--line);margin:0;font-size:16px}
+  .menu a.on{border-bottom-color:var(--line)}
 }
+
+/* abertura */
+.hero{background:var(--navy);color:var(--on-navy)}
+.hero .wrap{padding-block:64px 0}
+.kick{font-size:14px;font-weight:500;color:var(--on-navy-2)}
+.hero h1{color:var(--on-navy);font-size:clamp(32px,4.4vw,48px);line-height:1.12;font-weight:600;margin:14px 0 20px;max-width:20ch}
+.hero .lead{font-size:18px;color:var(--on-navy-2);max-width:62ch}
+.hero .by{margin-top:22px;font-size:14px;color:var(--on-navy-2)}
+.hero .by b{color:var(--on-navy);font-weight:600}
+.figs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:52px;border-top:1px solid var(--on-navy-line)}
+.figs > div{padding:24px 24px 30px 0;display:grid;gap:4px;align-content:start;min-width:0}
+.figs > div + div{padding-left:24px;border-left:1px solid var(--on-navy-line)}
+.figs b{font-size:36px;font-weight:600;line-height:1.1;color:var(--on-navy);letter-spacing:-.02em}
+.figs b small{font-size:17px;font-weight:500;color:var(--on-navy-2);letter-spacing:0}
+.figs span{font-size:14.5px;color:var(--on-navy-2)}
 
 /* seções */
-section{scroll-margin-top:calc(var(--nav) + 14px);padding-block:84px}
-.sh{display:grid;gap:12px;max-width:760px;margin-bottom:34px}
-.eb{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
-.eb::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
-.sh h2{font-size:clamp(26px,3.4vw,38px);line-height:1.15;font-weight:600}
-.sh p{color:var(--muted);font-size:17px;max-width:66ch}
-.line{border:0;height:1px;margin:0;background:linear-gradient(90deg,transparent,var(--stroke-2),transparent)}
-
-/* hero */
-.hero{padding-block:72px 64px}
-.hero-g{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
-.hero-g > *{min-width:0}
-.chip{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--muted);padding:7px 12px;border-radius:99px;border:1px solid var(--stroke);background:var(--glass)}
-.chip i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok)}
-.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.06;font-weight:700;margin:22px 0 20px;letter-spacing:-.03em}
-.hero h1 .hl{background:linear-gradient(92deg,var(--gold),#f5dca0 55%,var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .lead{font-size:18px;color:var(--muted);max-width:58ch}
-.by{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:22px;font-size:14px;color:var(--dim)}
-.by b{color:var(--text);font-weight:600}
-.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:14.5px;text-decoration:none;padding:12px 18px;border-radius:12px;border:1px solid var(--stroke-2);background:var(--glass-2);color:var(--text);transition:background .15s,border-color .15s}
-.btn:hover{background:var(--glass-3)}
-.btn.p{background:var(--gold);border-color:var(--gold);color:#1a1608}
-.btn.p:hover{background:#f0cf83}
-.serp{padding:20px;display:grid;gap:14px}
-.serp .q{display:flex;align-items:center;gap:10px;background:var(--paper);color:#202124;border-radius:99px;padding:10px 16px;font-size:15px}
-.serp .q svg{flex:none}
-.serp .loc{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
-.serp .loc::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 10px var(--blue)}
-.serp ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.serp li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;background:var(--glass);border:1px solid var(--stroke)}
-.serp li .n{font-family:var(--mono);font-size:13px;color:var(--dim);text-align:center}
-.serp li b{display:block;font-size:14.5px;font-weight:600}
-.serp li span{font-size:13px;color:var(--dim)}
-.serp li.miss{border:1px dashed rgba(255,143,128,.5);background:var(--bad-soft)}
-.serp li.miss b{color:var(--bad)}
-.serp .cap{font-size:12.5px;color:var(--dim)}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
-.kpi{padding:22px;display:grid;gap:6px;align-content:start}
-.kpi .v{font-family:var(--display);font-size:40px;font-weight:700;line-height:1;letter-spacing:-.03em}
-.kpi .v small{font-size:17px;color:var(--muted);font-weight:500;letter-spacing:0}
-.kpi .k{font-family:var(--display);font-weight:600;font-size:15px;margin-top:6px}
-.kpi .d{font-size:14px;color:var(--muted)}
-.kpi.gold .v{color:var(--gold)}
-.kpi .meter{display:flex;gap:3px;margin-top:8px}
-.kpi .meter i{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.12)}
-.kpi .meter i.on{background:var(--ok);box-shadow:0 0 8px rgba(94,219,170,.5)}
+section{scroll-margin-top:var(--nav);border-bottom:1px solid var(--line)}
+section.alt{background:var(--alt)}
+.sec{display:grid;grid-template-columns:270px minmax(0,1fr);gap:56px;padding-block:64px}
+.sec > *{min-width:0}
+.side h2{font-size:26px;line-height:1.2}
+.side p{margin-top:12px;font-size:15px;color:var(--muted)}
+.side .lbl{display:block;font-size:13px;font-weight:600;color:var(--gold);margin-bottom:8px}
+@media (min-width:901px){.side{position:sticky;top:calc(var(--nav) + 24px);align-self:start}}
+.body{display:grid;gap:36px}
+.body > *{min-width:0}
+h3.sub{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:14px}
+.note{font-size:13.5px;color:var(--faint);margin-top:10px}
 
 /* achados */
-.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.cards3 > *{min-width:0}
-.find{display:grid;grid-template-rows:auto 1fr;overflow:hidden}
-.find .shot{display:block;position:relative;border:0;padding:0;margin:0;cursor:zoom-in;background:var(--paper);border-bottom:1px solid var(--stroke);width:100%}
-.find .shot img{display:block;width:100%;height:180px;object-fit:cover;object-position:top left}
-.find .shot span{position:absolute;right:10px;bottom:10px;font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--text);background:rgba(7,11,34,.82);border:1px solid var(--stroke-2);border-radius:7px;padding:4px 8px}
-.find .tx{padding:20px 22px 22px;display:grid;gap:10px;align-content:start}
-.tag{justify-self:start;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:7px}
-.tag.bad{color:var(--bad);background:var(--bad-soft)}
-.tag.ok{color:var(--ok);background:var(--ok-soft)}
-.tag.gd{color:var(--gold);background:var(--gold-soft)}
-.tag.bl{color:var(--blue);background:var(--blue-soft)}
-.find h3{font-size:19px;line-height:1.3;font-weight:600}
-.find p{color:var(--muted);font-size:15px}
-.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-.mini > div{padding:18px 20px;display:grid;gap:6px}
-.mini h4{font-size:15.5px;font-weight:600;display:flex;gap:9px;align-items:center}
-.mini h4::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--bad);flex:none}
-.mini p{font-size:14.5px;color:var(--muted)}
+.find{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;padding-block:24px;border-top:1px solid var(--line)}
+.find:first-child{border-top:0;padding-top:0}
+.find > *{min-width:0}
+.shot{display:block;padding:0;margin:0;border:1px solid var(--line-2);border-radius:3px;background:#fff;cursor:zoom-in;overflow:hidden;width:100%}
+.shot img{display:block;width:100%;height:150px;object-fit:cover;object-position:top left}
+.shot:hover{border-color:var(--navy)}
+.find .k{font-size:13px;font-weight:600;margin-bottom:6px}
+.k.bad{color:var(--bad)} .k.ok{color:var(--ok)}
+.find h4{font-size:18.5px;line-height:1.35;margin-bottom:8px}
+.find p{color:var(--muted)}
+.find .src{display:inline-block;margin-top:10px;font-size:13.5px;color:var(--navy);background:none;border:0;padding:0;font-family:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.list li{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;padding:14px 0;border-bottom:1px solid var(--line)}
+.list li b{color:var(--ink);font-weight:600}
+.list li span{color:var(--muted)}
 
-/* ações */
-.acts{display:grid;gap:12px}
-.act{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:20px 24px}
-.act .n{font-family:var(--mono);font-weight:600;font-size:15px;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--gold);background:var(--gold-soft);border:1px solid rgba(228,191,106,.35)}
-.act h3{font-size:17.5px;font-weight:600;margin-bottom:4px}
-.act p{font-size:15px;color:var(--muted)}
-.act .meta{display:grid;gap:6px;justify-items:end}
-.act > div{min-width:0}
+/* tabelas */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;font-size:12.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:12px 16px;background:var(--alt);border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.q{font-weight:600;color:var(--ink)}
+td.q small{display:block;font-weight:400;color:var(--faint);font-size:13px}
+td.m{color:var(--muted)}
+td.c{white-space:nowrap}
+.st{display:inline-flex;align-items:center;gap:8px;font-weight:500;white-space:nowrap}
+.st::before{content:"";width:8px;height:8px;border-radius:50%}
+.st.y{color:var(--ok)} .st.y::before{background:var(--ok)}
+.st.n{color:var(--bad)} .st.n::before{background:var(--bad)}
+.pl{font:inherit;font-size:14px;color:var(--navy);background:none;border:0;padding:0;cursor:zoom-in;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.np{font-size:14px;color:var(--faint);white-space:nowrap}
+.acts td:first-child{font-weight:600;color:var(--navy);width:44px}
+.acts td h4{font-size:16px;margin-bottom:4px}
+.acts td p{color:var(--muted);font-size:14.5px}
 
-/* pico */
-.peak{display:grid;grid-template-columns:.75fr 1.25fr;gap:0;overflow:hidden}
-.peak > *{min-width:0}
-.peak .cd{padding:34px;display:grid;gap:10px;align-content:center;border-right:1px solid var(--stroke);background:radial-gradient(28rem 20rem at 0% 100%,rgba(228,191,106,.16),transparent 70%)}
-.peak .cd b{font-family:var(--display);font-size:84px;line-height:.9;font-weight:700;color:var(--gold);letter-spacing:-.04em}
-.peak .cd span{font-family:var(--display);font-weight:600;font-size:18px}
-.peak .cd p{color:var(--muted);font-size:15px}
-.peak .ch{padding:26px 28px 22px;display:grid;gap:10px}
-.peak .ch svg{width:100%;height:auto;display:block}
-.peak .ch p{font-size:13px;color:var(--dim)}
+.seg{display:flex;gap:24px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.seg button{font:500 15px var(--font);color:var(--muted);background:none;border:0;padding:0 0 12px;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.seg button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
 
-/* tabela de buscas */
-.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:13px;background:var(--glass);border:1px solid var(--stroke);margin-bottom:16px;flex-wrap:wrap}
-.tabs button{font-family:var(--display);font-size:14px;font-weight:600;color:var(--muted);background:transparent;border:0;border-radius:10px;padding:9px 16px;cursor:pointer}
-.tabs button[aria-selected="true"]{background:var(--glass-3);color:var(--text)}
-.tbl{overflow:hidden}
-.tr{display:grid;grid-template-columns:minmax(0,1.5fr) 90px 100px minmax(0,2.3fr) 116px 86px;gap:16px;align-items:center;padding:14px 22px;border-top:1px solid var(--stroke)}
-.tr:first-child{border-top:0}
-.tr.th{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.03)}
-.tr .q{font-weight:600;font-size:15px}
-.tr .q small{display:block;font-weight:500;font-size:12.5px;color:var(--dim);font-family:var(--mono)}
-.tr .pos{font-family:var(--mono);font-size:13.5px;color:var(--text)}
-.tr .pos.no{color:var(--dim)}
-.tr .who{font-size:14px;color:var(--muted)}
-.pill{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:99px;white-space:nowrap}
-.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.pill.y{color:var(--ok);background:var(--ok-soft)}
-.pill.n{color:var(--bad);background:var(--bad-soft)}
-.pbtn{white-space:nowrap;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--blue);background:var(--blue-soft);border:1px solid rgba(132,150,255,.3);border-radius:8px;padding:5px 9px;cursor:zoom-in}
-.pbtn:hover{border-color:var(--blue)}
-.np{white-space:nowrap;font-family:var(--mono);font-size:12px;color:var(--dim)}
-.tnote{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:13.5px;color:var(--dim)}
-@media (max-width:860px){
-  .tr.th{display:none}
-  .tr{grid-template-columns:1fr auto;grid-template-areas:"q st" "pos pos" "who who" "pr pr";gap:8px 12px;padding:16px 18px}
-  .tr .q{grid-area:q}.tr .st{grid-area:st}.tr .who{grid-area:who}.tr .pr{grid-area:pr}
-  .tr .pp{grid-area:pos;display:flex;gap:16px}
-  .tr .pos::before{content:attr(data-l) " ";color:var(--dim);font-family:var(--body);font-size:12.5px}
-}
-@media (min-width:861px){.tr .pp{display:contents}}
+/* gráfico */
+.chartbox{display:grid;grid-template-columns:200px minmax(0,1fr);gap:32px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:28px;background:var(--bg)}
+.chartbox > *{min-width:0}
+.cd b{display:block;font-size:56px;font-weight:600;line-height:1;color:var(--navy);letter-spacing:-.03em}
+.cd span{display:block;margin-top:6px;font-weight:600;color:var(--ink)}
+.cd p{margin-top:10px;font-size:14px;color:var(--muted)}
+.chartbox svg{width:100%;height:auto;display:block}
 
 /* perfil */
-.ba{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.ba > *{min-width:0}
-.ba .col{padding:24px;display:grid;gap:16px;align-content:start}
-.ba .col.after{background:linear-gradient(180deg,rgba(94,219,170,.09),rgba(94,219,170,.02));border-color:rgba(94,219,170,.28)}
-.ba h3{font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px}
-.ba .shot{border:0;padding:0;background:var(--paper);border-radius:12px;overflow:hidden;cursor:zoom-in;display:block;width:100%}
-.ba .shot img{display:block;width:100%;height:170px;object-fit:cover;object-position:top left}
-dl{margin:0;display:grid;gap:0}
-dl > div{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--stroke)}
-dl > div:first-child{border-top:0;padding-top:0}
-dt{font-family:var(--mono);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);padding-top:3px}
-dd{margin:0;font-size:15px}
-.before dd{color:var(--bad)}
-.extra{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-.extra > div{padding:20px;display:grid;gap:8px;align-content:start}
-.extra h4{font-size:16px;font-weight:600}
-.extra p{font-size:14.5px;color:var(--muted)}
+.cmp td:first-child{font-weight:600;color:var(--ink);width:110px}
+.cmp td.now{color:var(--bad)}
+.cmp th.now,.cmp th.fut{width:42%}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.pair > *{min-width:0}
 
 /* site */
-.okf{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.okf > *{min-width:0}
-.okf .col{padding:24px}
-.okf h3{font-size:18px;font-weight:600;margin-bottom:14px}
-.ck{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.ck li{position:relative;padding-left:30px;font-size:15px;color:var(--muted)}
-.ck li::before{content:"";position:absolute;left:0;top:3px;width:19px;height:19px;border-radius:6px;background:var(--ok-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3 3 7-7' fill='none' stroke='%235edbaa' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/15px no-repeat}
-.ck.x li::before{background:var(--bad-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M6 6l8 8M14 6l-8 8' fill='none' stroke='%23ff8f80' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center/13px no-repeat}
-code{font-family:var(--mono);font-size:.86em;color:var(--blue);background:var(--blue-soft);padding:1px 6px;border-radius:5px;word-break:break-word}
-.subh{font-size:20px;font-weight:600;margin:44px 0 16px}
-.serps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.serps > *{min-width:0}
-.sr{padding:14px;display:grid;gap:12px;align-content:start}
-.sr .gres{background:var(--paper);border-radius:12px;padding:16px;font-family:Arial,Helvetica,sans-serif;color:#202124}
-.sr .gres .u{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--url);word-break:break-all}
-.sr .gres .u i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--paper-ink);color:var(--paper);font-style:normal;font-size:9.5px;font-weight:700;display:grid;place-items:center}
-.sr .gres .t{color:var(--link);font-size:17px;line-height:1.3;margin:8px 0 5px}
-.sr .gres .d{font-size:13.5px;line-height:1.5;color:#474747}
-.sr .what{padding:2px 6px 6px;font-size:14px;color:var(--muted)}
-.sr .what b{display:block;font-family:var(--mono);color:var(--gold);font-size:13.5px;margin-bottom:3px}
-.fine{font-size:13px;color:var(--dim);margin-top:12px}
-.adj{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.adj > div{padding:20px;display:grid;gap:8px;align-content:start;min-width:0}
-.adj b{font-family:var(--display);font-weight:600;font-size:15.5px}
-.adj span{font-size:14.5px;color:var(--muted)}
-
-/* palavras */
-.kw{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.kw > div{padding:22px;display:grid;gap:14px;align-content:start;min-width:0}
-.kw h4{font-family:var(--mono);font-size:15px;font-weight:600;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
-.kw .chips{display:flex;flex-wrap:wrap;gap:8px}
-.kw .chips span{font-size:13.5px;padding:6px 11px;border-radius:9px;background:var(--glass-2);border:1px solid var(--stroke);color:var(--text)}
+.chk{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.chk li{position:relative;padding:12px 0 12px 28px;border-bottom:1px solid var(--line);font-size:15px}
+.chk li::before{position:absolute;left:2px;top:12px;font-weight:700}
+.chk.yes li::before{content:"✓";color:var(--ok)}
+.chk.no li::before{content:"✕";color:var(--bad)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;background:var(--tint);color:var(--navy);padding:1px 5px;border-radius:3px;word-break:break-word}
+.serps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.serp{display:grid;gap:12px;align-content:start}
+.gres{border:1px solid var(--line);border-radius:4px;padding:16px;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#202124}
+.gres .u{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#4d5156;word-break:break-all}
+.gres .u i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-style:normal;font-size:9.5px;font-weight:700;display:grid;place-items:center}
+.gres .t{color:#1a0dab;font-size:17px;line-height:1.3;margin:8px 0 5px}
+.gres .d{font-size:13.5px;line-height:1.5;color:#474747}
+.serp .w{font-size:14px;color:var(--muted)}
+.serp .w b{display:block;color:var(--ink);font-weight:600}
 
 /* prints */
-.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.gal button{font:inherit;color:inherit;text-align:left;padding:10px;display:grid;gap:8px;align-content:start;cursor:zoom-in;min-width:0}
-.gal img{display:block;width:100%;aspect-ratio:1/.92;object-fit:cover;object-position:top;border-radius:10px;background:var(--paper)}
-.gal b{font-family:var(--display);font-weight:600;font-size:14px;padding:2px 4px 0}
-.gal span{font-size:13px;color:var(--muted);padding:0 4px 4px}
-.dl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;margin-top:20px}
-.dl b{font-family:var(--display);font-weight:600;font-size:16px;display:block}
-.dl span{font-size:14px;color:var(--muted)}
+.gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 20px}
+.gal button{font:inherit;color:inherit;text-align:left;background:none;border:0;padding:0;cursor:zoom-in;display:grid;gap:8px;align-content:start}
+.gal img{display:block;width:100%;aspect-ratio:1/.9;object-fit:cover;object-position:top;border:1px solid var(--line-2);border-radius:3px;background:#fff}
+.gal button:hover img{border-color:var(--navy)}
+.gal b{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
+.gal span{font-size:13px;color:var(--muted);margin-top:-4px}
+.dlrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.dlrow b{display:block;color:var(--ink);font-weight:600}
+.dlrow span{font-size:14px;color:var(--muted)}
+.btn{display:inline-block;font:600 14.5px var(--font);text-decoration:none;color:#fff;background:var(--navy);border:1px solid var(--navy);border-radius:4px;padding:10px 18px;cursor:pointer}
+.btn:hover{background:var(--navy-2)}
+.btn.ghost{background:var(--bg);color:var(--navy)}
 
 /* pendências */
-.prog{display:flex;align-items:center;gap:18px;padding:18px 22px;margin-bottom:18px;flex-wrap:wrap}
-.prog .track{flex:1;min-width:180px;height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
-.prog .fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--ok));transition:width .3s ease}
-.prog span{font-family:var(--mono);font-size:13.5px;color:var(--muted)}
-.own{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-.own > *{min-width:0}
-.stack{display:grid;gap:18px}
-.ow{padding:22px;display:grid;gap:4px}
-.ow .hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
-.ow h3{font-size:18px;font-weight:600}
-.ow label{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;padding:10px 10px;margin:0 -10px;border-radius:10px;cursor:pointer;font-size:15px}
-.ow label:hover{background:var(--glass)}
-.ow input{appearance:none;-webkit-appearance:none;width:20px;height:20px;margin:2px 0 0;border-radius:6px;border:1.5px solid var(--stroke-2);background:transparent;cursor:pointer;display:grid;place-items:center}
-.ow input:checked{background:var(--ok);border-color:var(--ok)}
-.ow input:checked::after{content:"";width:10px;height:6px;border:2px solid #07261a;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
-.ow input:checked + span{color:var(--dim);text-decoration:line-through}
-.ow .note{font-size:13.5px;color:var(--gold);margin-top:8px}
-.tl{display:grid;grid-template-columns:repeat(7,1fr);gap:0;padding:26px 22px 22px;position:relative}
-.tl > div{position:relative;display:grid;gap:4px;padding:26px 10px 0 0;min-width:0}
-.tl > div::before{content:"";position:absolute;top:6px;left:0;right:0;height:2px;background:var(--stroke-2)}
-.tl > div::after{content:"";position:absolute;top:0;left:0;width:14px;height:14px;border-radius:50%;background:var(--bg-2);border:2px solid var(--blue)}
-.tl > div.done::after{background:var(--ok);border-color:var(--ok);box-shadow:0 0 10px var(--ok)}
-.tl > div.pk::after{border-color:var(--gold);background:var(--gold)}
-.tl b{font-family:var(--mono);font-size:13.5px;font-weight:600}
-.tl span{font-size:14px;color:var(--muted)}
+.progress{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.progress .tr{flex:1;min-width:160px;height:6px;background:var(--tint);border-radius:3px;overflow:hidden}
+.progress .fi{height:100%;width:0;background:var(--ok);transition:width .25s}
+.progress span{font-size:14px;color:var(--muted)}
+.people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
+.people > *{min-width:0}
+.person{border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.person .hd{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.person h4{font-size:16.5px}
+.person .due{font-size:13.5px;font-weight:600;color:var(--gold)}
+.person label{display:grid;grid-template-columns:18px 1fr;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:15px;cursor:pointer}
+.person label:last-of-type{border-bottom:0}
+.person input{width:16px;height:16px;margin:3px 0 0;accent-color:var(--ok);cursor:pointer}
+.person input:checked + span{color:var(--faint);text-decoration:line-through}
+.person .foot{padding:12px 18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);background:var(--alt)}
+.col{display:grid;gap:24px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:2px solid var(--navy)}
+.steps li{padding:12px 12px 0 0;display:grid;gap:2px;align-content:start}
+.steps b{font-size:14px;color:var(--navy)}
+.steps span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.steps li.pk b{color:var(--gold)}
 
 /* método */
-.met{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-.met > *{min-width:0;padding:26px}
-.met p{color:var(--muted);font-size:15.5px}
-.met ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
-.met li{font-size:14.5px;color:var(--muted);padding-left:18px;position:relative}
-.met li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--blue)}
-.met a{color:var(--text);text-decoration-color:var(--blue);text-underline-offset:3px}
-footer{border-top:1px solid var(--stroke);padding-block:30px;background:rgba(7,11,34,.5)}
-footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--dim)}
-footer img{height:30px;width:auto;display:block}
+.src-list{margin:0;padding-left:18px;display:grid;gap:8px;color:var(--muted);font-size:15px}
+.src-list a{color:var(--navy)}
+
+footer{background:var(--navy);color:var(--on-navy-2)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:28px;font-size:13.5px}
+footer img{height:32px;width:auto;display:block}
 
 /* visualizador */
-.lb{position:fixed;inset:0;z-index:100;background:rgba(4,6,20,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;grid-template-rows:auto minmax(0,1fr);padding:calc(env(safe-area-inset-top,0px) + 14px) max(14px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(14px,env(safe-area-inset-left,0px))}
-.lb .top{display:flex;align-items:center;gap:12px;max-width:920px;width:100%;margin:0 auto 12px;font-family:var(--display);font-weight:600;font-size:14.5px}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(15,19,40,.9);display:grid;grid-template-rows:auto minmax(0,1fr);padding:calc(env(safe-area-inset-top,0px) + 14px) max(14px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(14px,env(safe-area-inset-left,0px))}
+.lb .top{display:flex;align-items:center;gap:12px;max-width:920px;width:100%;margin:0 auto 12px;color:#fff;font-size:15px;font-weight:500}
 .lb .top span{flex:1;min-width:0}
-.lb .sc{overflow:auto;max-width:920px;width:100%;margin:0 auto;border-radius:12px;border:1px solid var(--stroke)}
+.lb .sc{overflow:auto;max-width:920px;width:100%;margin:0 auto;background:#fff}
 .lb img{display:block;width:100%;height:auto}
 
-/* responsivo */
-@media (max-width:1000px){
-  .hero-g{grid-template-columns:1fr}
-  .kpis{grid-template-columns:repeat(2,1fr)}
-  .cards3,.mini,.extra,.serps,.adj,.kw{grid-template-columns:1fr 1fr}
-  .gal{grid-template-columns:repeat(3,1fr)}
-  .peak{grid-template-columns:1fr}
-  .peak .cd{border-right:0;border-bottom:1px solid var(--stroke)}
-  .tl{grid-template-columns:1fr;gap:0;padding:22px}
-  .tl > div{padding:0 0 18px 30px}
-  .tl > div::before{top:16px;bottom:-2px;left:6px;right:auto;width:2px;height:auto}
-  .tl > div:last-child::before{display:none}
-  .met{grid-template-columns:1fr}
+@media (max-width:900px){
+  .sec{grid-template-columns:1fr;gap:28px;padding-block:48px}
+  .figs{grid-template-columns:repeat(2,1fr)}
+  .figs > div:nth-child(3){padding-left:0;border-left:0}
+  .figs > div:nth-child(n+3){border-top:1px solid var(--on-navy-line)}
+  .chartbox{grid-template-columns:1fr}
+  .serps{grid-template-columns:1fr}
+  .gal{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .steps{grid-template-columns:1fr;border-top:0;border-left:2px solid var(--navy);gap:14px}
+  .steps li{padding:0 0 0 16px}
 }
-@media (max-width:680px){
-  section{padding-block:60px}
-  .kpis,.cards3,.mini,.extra,.serps,.adj,.kw,.ba,.okf,.own{grid-template-columns:1fr}
-  .gal{grid-template-columns:1fr 1fr}
-  .act{grid-template-columns:auto 1fr;gap:14px;padding:18px}
-  .act .meta{grid-column:2;justify-items:start;display:flex;flex-wrap:wrap;gap:6px}
-  .peak .cd b{font-size:64px}
-  .kpi .v{font-size:34px}
-  dl > div{grid-template-columns:1fr;gap:2px}
-  .brand .x,.brand .lg{display:none}
+@media (max-width:640px){
+  .find{grid-template-columns:1fr;gap:14px}
+  .list li{grid-template-columns:1fr;gap:2px}
+  .pair,.people{grid-template-columns:1fr}
+  .gal{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .figs b{font-size:30px}
+  .brand .sep,.brand .lg{display:none}
+  .kwt thead{display:none}
+  .kwt tr{display:grid;gap:2px;padding:14px 16px;border-bottom:1px solid var(--line)}
+  .kwt tr:last-child{border-bottom:0}
+  .kwt td{border:0;padding:0;white-space:normal}
+  .kwt td:nth-child(2){font-size:13.5px}
+  .acts thead,.bq thead,.cmp thead{display:none}
+  .acts tr,.bq tr,.cmp tr{display:grid;border-bottom:1px solid var(--line);padding:14px 16px;gap:4px}
+  .acts tr:last-child,.bq tr:last-child,.cmp tr:last-child{border-bottom:0}
+  .acts td,.bq td,.cmp td{border:0;padding:0;width:auto!important;white-space:normal}
+  .acts tr{grid-template-columns:28px minmax(0,1fr)}
+  .acts td.c{grid-column:2;font-size:14px;color:var(--muted)}
+  .acts td:nth-child(3)::before{content:"Responsável: ";color:var(--faint)}
+  .acts td:nth-child(4)::before{content:"Prazo: ";color:var(--faint)}
+  .bq tr{grid-template-columns:minmax(0,1fr) auto}
+  .bq td:nth-child(3),.bq td:nth-child(4),.bq td:nth-child(5){grid-column:1 / -1;font-size:14px}
+  .bq td:nth-child(3)::before{content:"Mapa · Resultados: ";color:var(--faint)}
+  .cmp td:nth-child(2)::before{content:"Hoje: ";color:var(--faint)}
+  .cmp td:nth-child(3)::before{content:"Até 30/11: ";color:var(--faint)}
 }
 </style>
 </head>
 <body>
 
 
-<div class="fx" aria-hidden="true"></div>
-<div class="page">
-
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="#inicio" aria-label="Início">
-      <img class="sk" src="img/skema-white.png" alt="SKEMA Consultoria Jr.">
-      <span class="x">×</span>
-      <span class="lg"><img src="img/laguardia.png" alt="La Guardia Panificadora"></span>
+      <img class="sk" src="img/skema-navy.png" alt="SKEMA Consultoria Jr.">
+      <span class="sep"></span>
+      <img class="lg" src="img/laguardia.png" alt="La Guardia Panificadora">
     </a>
     <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="menu">Menu</button>
     <nav class="menu" id="menu" aria-label="Seções">
-      <a href="#achados">Achados</a>
+      <a href="#resumo">Resumo</a>
       <a href="#acoes">Ações</a>
       <a href="#buscas">Buscas</a>
       <a href="#perfil">Perfil</a>
       <a href="#site">Site</a>
       <a href="#palavras">Palavras-chave</a>
       <a href="#prints">Prints</a>
-      <a href="#metodo">Método</a>
-      <a href="#pendencias" class="cta">Pendências</a>
+      <a href="#pendencias">Pendências</a>
     </nav>
   </div>
-  <div class="bar" id="bar"></div>
 </header>
 
 <main>
-
-<section id="inicio" class="hero">
+<div class="hero" id="inicio">
   <div class="wrap">
-    <div class="hero-g">
+    <div class="kick">Projeto Laguardia · Diagnóstico de Google, Perfil da Empresa e SEO</div>
+    <h1>A Laguardia aparece em 6 de 15 buscas no Google</h1>
+    <p class="lead">Fora de Barbacena, só quando procuram pelo nome. Pesquisei como um cliente de Barbacena e das cidades da região, auditei o Perfil da Empresa e o site novo e levantei as palavras-chave do panetone artesanal. Aqui estão o que encontrei, o que recomendo e o que preciso de vocês para fechar a entrega.</p>
+    <p class="by"><b>Antonio</b> · Frente 2 · SKEMA Consultoria Jr. · Levantamento de 09/11/2026</p>
+    <div class="figs">
+      <div><b>6<small> de 15</small></b><span>buscas em que a Padaria aparece</span></div>
+      <div><b>4,5<small> ★</small></b><span>nota no Google, com 863 avaliações</span></div>
+      <div><b>2º</b><span>lugar do site em “panetone Barbacena”</span></div>
+      <div><b id="days">21</b><span id="days-txt">dias até o pico de buscas</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="resumo">
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">O que eu encontrei</span>
+      <h2>Três problemas travam a Padaria no Google</h2>
+      <p>A reputação já está construída. O que atrapalha são informações erradas no Perfil e a falta de conteúdo sobre panetone. Todos têm conserto rápido.</p>
+    </div>
+    <div class="body">
       <div>
-        <span class="chip"><i></i>Diagnóstico · Google, Perfil da Empresa e SEO · 09/11/2026</span>
-        <h1>A Laguardia aparece em <span class="hl">6 de 15</span> buscas no Google.</h1>
-        <p class="lead">Fora de Barbacena, só quando procuram pelo nome. Pesquisei como um cliente de Barbacena e das cidades da região, auditei o Perfil da Empresa e o site novo e levantei as palavras-chave do panetone artesanal. Aqui estão o que encontrei, o que recomendo e o que preciso de vocês para fechar a entrega.</p>
-        <div class="by"><span><b>Antonio</b> · Frente 2 · SKEMA Consultoria Jr.</span><span>Projeto Laguardia</span></div>
-        <div class="btns">
-          <a class="btn p" href="#achados">Ver o diagnóstico</a>
-          <a class="btn" href="#pendencias">O que preciso de vocês</a>
+        <div class="find">
+          <button type="button" class="shot" data-p="11" aria-label="Ver print 11"><img src="img/ev-wix.png" alt="Perfil no Google Maps com o link playersim18.wixsite.com"></button>
+          <div><div class="k bad">Problema 1</div><h4>O botão “Site” do Google leva ao site de 2022</h4><p>O Perfil aponta para o site antigo no Wix, ainda no ar com cestas de Natal de R$ 78 a R$ 350.</p><button type="button" class="src" data-p="11">Ver print 11</button></div>
+        </div>
+        <div class="find">
+          <button type="button" class="shot" data-p="01" aria-label="Ver print 01"><img src="img/ev-dono.png" alt="Ficha da Padaria com o link É proprietário desta empresa?"></button>
+          <div><div class="k bad">Problema 2</div><h4>O Perfil pode estar sem dono verificado</h4><p>A ficha mostra “É proprietário desta empresa?” e o cardápio aponta para padarialaguardia.com, sem .br. Sem acesso ao Perfil, nada pode ser corrigido.</p><button type="button" class="src" data-p="01">Ver print 01</button></div>
+        </div>
+        <div class="find">
+          <button type="button" class="shot" data-p="05" aria-label="Ver print 05"><img src="prints/05_t.jpg" alt="Busca panetone artesanal em Barbacena só com receitas"></button>
+          <div><div class="k bad">Problema 3</div><h4>Não existe página de panetone para o Google mostrar</h4><p>Em “panetone artesanal”, até em Barbacena, o Google mostra só receitas. Em Juiz de Fora, São João del-Rei, Conselheiro Lafaiete e BH, nenhuma busca por panetone mostra a Padaria.</p><button type="button" class="src" data-p="05">Ver print 05</button></div>
+        </div>
+        <div class="find">
+          <button type="button" class="shot" data-p="03" aria-label="Ver print 03"><img src="img/ev-site.png" alt="Busca panetone Barbacena com o site da Laguardia em 2º"></button>
+          <div><div class="k ok">Ponto forte</div><h4>Em Barbacena, o site novo já está em 2º</h4><p>Aparece em 2º em “panetone Barbacena” e em 3º em “panetone artesanal Barbacena”. Com uma página própria de panetones, pode ir além da cidade.</p><button type="button" class="src" data-p="03">Ver print 03</button></div>
         </div>
       </div>
-      <div class="g serp" aria-label="Exemplo real de busca em Juiz de Fora">
-        <div class="q"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#5f6368" stroke-width="2"/><path d="M15.5 15.5L21 21" stroke="#5f6368" stroke-width="2" stroke-linecap="round"/></svg>panetone artesanal</div>
-        <div class="loc">Centro, Juiz de Fora, MG</div>
-        <ol>
-          <li><span class="n">1</span><div><b>Receita de panetone caseiro</b><span>TudoGostoso</span></div></li>
-          <li><span class="n">2</span><div><b>Panetone caseiro</b><span>Panelinha</span></div></li>
-          <li><span class="n">3</span><div><b>Vídeos: como fazer panetone artesanal</b><span>YouTube</span></div></li>
-          <li class="miss"><span class="n">–</span><div><b>Panificadora Laguardia</b><span>Não aparece nesta busca</span></div></li>
-        </ol>
-        <p class="cap">Resultados reais de 09/11/2026, resumidos do print 07.</p>
-      </div>
-    </div>
-
-    <div class="kpis">
-      <div class="g kpi">
-        <div class="v num">6<small> de 15</small></div>
-        <div class="k">Buscas em que aparece</div>
-        <div class="d">5 em Barbacena e 1 em Juiz de Fora, pelo nome.</div>
-        <div class="meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="g kpi">
-        <div class="v num">4,5<small> ★</small></div>
-        <div class="k">Nota no Google</div>
-        <div class="d">863 avaliações, 606 de cinco estrelas e 180 fotos.</div>
-      </div>
-      <div class="g kpi">
-        <div class="v num">2º</div>
-        <div class="k">Em “panetone Barbacena”</div>
-        <div class="d">O site novo já compete na cidade.</div>
-      </div>
-      <div class="g kpi gold">
-        <div class="v num" id="days">21</div>
-        <div class="k" id="days-txt">Dias até o pico de buscas</div>
-        <div class="d">Em 2025, as buscas dobraram na semana de 30/11.</div>
+      <div>
+        <h3 class="sub">Outros pontos</h3>
+        <ul class="list">
+          <li><b>Horário de quinta diverge</b><span>No Google, quinta-feira fechado. No site, aberto de segunda a sábado.</span></li>
+          <li><b>Produtos de 2023 no Perfil</b><span>Páscoa 2023 e Dia das Mães, sem nenhum panetone de Natal cadastrado.</span></li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="line">
-
-<section id="achados">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">O que eu encontrei</span>
-      <h2>Três problemas travam a Padaria no Google, e todos têm conserto rápido</h2>
-      <p>A reputação já está construída. O que atrapalha são informações erradas no Perfil e a falta de conteúdo sobre panetone. Clique nas imagens para ver o print completo.</p>
+<section id="acoes" class="alt">
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Recomendação</span>
+      <h2>5 ações prioritárias</h2>
+      <p>Em ordem: a primeira libera as outras, porque sem acesso ao Perfil nada nele pode ser corrigido. Todas precisam estar prontas antes do pico de buscas.</p>
     </div>
-    <div class="cards3">
-      <article class="g h find">
-        <button type="button" class="shot" data-p="11" aria-label="Ver print 11"><img src="img/ev-wix.png" alt="Perfil no Google Maps com o link playersim18.wixsite.com"><span>Print 11</span></button>
-        <div class="tx"><span class="tag bad">Problema 1</span><h3>O botão “Site” do Google leva ao site de 2022</h3><p>O Perfil aponta para o site antigo no Wix, ainda no ar com cestas de Natal de R$ 78 a R$ 350.</p></div>
-      </article>
-      <article class="g h find">
-        <button type="button" class="shot" data-p="01" aria-label="Ver print 01"><img src="img/ev-dono.png" alt="Ficha da Padaria com o link É proprietário desta empresa?"><span>Print 01</span></button>
-        <div class="tx"><span class="tag bad">Problema 2</span><h3>O Perfil pode estar sem dono verificado</h3><p>A ficha mostra “É proprietário desta empresa?” e o cardápio aponta para padarialaguardia.com, sem .br. Sem acesso ao Perfil, nada pode ser corrigido.</p></div>
-      </article>
-      <article class="g h find">
-        <button type="button" class="shot" data-p="03" aria-label="Ver print 03"><img src="img/ev-site.png" alt="Busca panetone Barbacena com o site da Laguardia em 2º"><span>Print 03</span></button>
-        <div class="tx"><span class="tag ok">Ponto forte</span><h3>Em Barbacena, o site novo já está em 2º</h3><p>Aparece em 2º em “panetone Barbacena” e em 3º em “panetone artesanal Barbacena”. Falta uma página de panetones para ir além da cidade.</p></div>
-      </article>
-    </div>
-    <div class="mini">
-      <div class="g"><h4>Fora de Barbacena, ausente</h4><p>Juiz de Fora, São João del-Rei, Conselheiro Lafaiete e BH: nenhuma busca por panetone mostra a Padaria.</p></div>
-      <div class="g"><h4>Horário de quinta diverge</h4><p>No Google, quinta-feira fechado. No site, aberto de segunda a sábado.</p></div>
-      <div class="g"><h4>Produtos de 2023 no Perfil</h4><p>Páscoa 2023 e Dia das Mães, sem nenhum panetone de Natal cadastrado.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="acoes">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Plano de ação</span>
-      <h2>5 ações prioritárias, em ordem</h2>
-      <p>A primeira libera as outras: sem acesso ao Perfil, nada nele pode ser corrigido. Todas precisam estar prontas antes do pico de buscas.</p>
-    </div>
-    <div class="acts">
-      <div class="g h act"><span class="n">1</span><div><h3>Garantir o acesso ao Perfil da Empresa</h3><p>A ficha mostra “É proprietário desta empresa?”. A Padaria precisa entrar em business.google.com e, se preciso, reivindicar o Perfil.</p></div><div class="meta"><span class="tag bl">Padaria</span><span class="tag gd">até 18/11</span></div></div>
-      <div class="g h act"><span class="n">2</span><div><h3>Trocar o link do site no Perfil</h3><p>Apontar para padarialaguardia.com.br e tirar do ar o site antigo do Wix, que ainda mostra cestas de Natal de 2022.</p></div><div class="meta"><span class="tag bl">Padaria</span><span class="tag gd">até 30/11</span></div></div>
-      <div class="g h act"><span class="n">3</span><div><h3>Acertar o horário e cadastrar o de fim de ano</h3><p>O mesmo horário no Perfil, no site e no Instagram, com horário especial em 24/12, 25/12, 31/12 e 01/01.</p></div><div class="meta"><span class="tag bl">Padaria</span><span class="tag gd">até 30/11</span></div></div>
-      <div class="g h act"><span class="n">4</span><div><h3>Cadastrar os panetones e as cestas no Perfil</h3><p>No lugar dos produtos de 2023, cada panetone e cada cesta de Natal, com foto, peso, preço e link para o site.</p></div><div class="meta"><span class="tag bl">Padaria</span><span class="tag gd">até 30/11</span></div></div>
-      <div class="g h act"><span class="n">5</span><div><h3>Publicar a página de panetones no site</h3><p>Uma página <code>/panetones/</code> com o título “Panetone artesanal em Barbacena”, sabores, pesos, preços, prazo de encomenda e botão de WhatsApp.</p></div><div class="meta"><span class="tag bl">Quem faz o site</span><span class="tag gd">até 30/11</span></div></div>
+    <div class="body">
+      <div class="tw">
+        <table class="acts">
+          <thead><tr><th>#</th><th>Ação</th><th>Responsável</th><th>Prazo</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><h4>Garantir o acesso ao Perfil da Empresa</h4><p>Entrar em business.google.com e, se preciso, reivindicar o Perfil.</p></td><td class="c">Padaria</td><td class="c">18/11</td></tr>
+            <tr><td>2</td><td><h4>Trocar o link do site no Perfil</h4><p>Apontar para padarialaguardia.com.br e tirar do ar o site antigo do Wix.</p></td><td class="c">Padaria</td><td class="c">30/11</td></tr>
+            <tr><td>3</td><td><h4>Acertar o horário e cadastrar o de fim de ano</h4><p>O mesmo horário no Perfil, no site e no Instagram, com horário especial em 24/12, 25/12, 31/12 e 01/01.</p></td><td class="c">Padaria</td><td class="c">30/11</td></tr>
+            <tr><td>4</td><td><h4>Cadastrar os panetones e as cestas no Perfil</h4><p>No lugar dos produtos de 2023, cada panetone e cada cesta de Natal, com foto, peso, preço e link para o site.</p></td><td class="c">Padaria</td><td class="c">30/11</td></tr>
+            <tr><td>5</td><td><h4>Publicar a página de panetones no site</h4><p>Uma página <code>/panetones/</code> com o título “Panetone artesanal em Barbacena”, sabores, pesos, preços, prazo de encomenda e botão de WhatsApp.</p></td><td class="c">Quem faz o site</td><td class="c">30/11</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="buscas">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Presença nas buscas</span>
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Presença nas buscas</span>
       <h2>Pesquisei como um cliente de cada cidade</h2>
-      <p>Em cada busca, coloquei a localização no centro da cidade e o próprio Google confirmou o local na página. Navegador sem login e sem personalização, como uma aba anônima.</p>
+      <p>Localização definida no centro de cada cidade e confirmada pelo próprio Google na página. Navegador sem login e sem personalização, como uma aba anônima.</p>
     </div>
-    <div class="tabs" role="tablist" aria-label="Cidades">
-      <button type="button" role="tab" id="t-bq" aria-selected="true" aria-controls="p-bq">Barbacena · 10 buscas</button>
-      <button type="button" role="tab" id="t-rg" aria-selected="false" aria-controls="p-rg">Região · 5 buscas</button>
-    </div>
-    <div class="g tbl" id="p-bq" role="tabpanel" aria-labelledby="t-bq"></div>
-    <div class="g tbl" id="p-rg" role="tabpanel" aria-labelledby="t-rg" hidden></div>
-    <div class="tnote"><span>Mapa: posição no bloco de lugares do Google Maps.</span><span>Resultados: posição nos links abaixo do mapa.</span></div>
-
-    <div class="g peak" id="pico" style="margin-top:44px">
-      <div class="cd">
-        <span class="eb">Quando as pessoas procuram</span>
-        <b class="num" id="days2">21</b>
-        <span id="days2-txt">dias até o pico de buscas</span>
-        <p>Em 2025, as buscas por panetone artesanal dobraram na semana de 30/11 e ficaram altas até 21/12. Tudo o que mexe no Google precisa estar pronto antes disso.</p>
+    <div class="body">
+      <div>
+        <div class="seg" role="tablist" aria-label="Cidades">
+          <button type="button" role="tab" id="t-bq" aria-selected="true" aria-controls="p-bq">Barbacena · 10 buscas</button>
+          <button type="button" role="tab" id="t-rg" aria-selected="false" aria-controls="p-rg">Região · 5 buscas</button>
+        </div>
+        <div class="tw" id="p-bq" role="tabpanel" aria-labelledby="t-bq"></div>
+        <div class="tw" id="p-rg" role="tabpanel" aria-labelledby="t-rg" hidden></div>
+        <p class="note">Mapa: posição no bloco de lugares do Google Maps. Resultados: posição nos links abaixo do mapa.</p>
       </div>
-      <div class="ch">
-        <svg viewBox="0 0 640 262" role="img" aria-label="Gráfico: na semana de 08/11/2026 o índice é 31. Em 2025, 43, 36 e 46 em novembro, depois 93, 95 e 89 entre 30/11 e 14/12, 79 em 21/12 e 43 em 28/12.">
-          <defs>
-            <linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8496ff" stop-opacity=".75"/><stop offset="1" stop-color="#8496ff" stop-opacity=".2"/></linearGradient>
-            <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e4bf6a"/><stop offset="1" stop-color="#e4bf6a" stop-opacity=".45"/></linearGradient>
-          </defs>
-          <g font-family="JetBrains Mono, monospace" font-size="11" fill="#7279a3">
-            <line x1="34" y1="210" x2="632" y2="210" stroke="rgba(255,255,255,.18)"/>
-            <line x1="34" y1="110" x2="632" y2="110" stroke="rgba(255,255,255,.08)" stroke-dasharray="3 5"/>
-            <line x1="34" y1="10" x2="632" y2="10" stroke="rgba(255,255,255,.08)" stroke-dasharray="3 5"/>
-            <text x="26" y="214" text-anchor="end">0</text><text x="26" y="114" text-anchor="end">50</text><text x="26" y="14" text-anchor="end">100</text>
-          </g>
-          <rect x="290" y="6" width="198" height="204" rx="8" fill="#e4bf6a" fill-opacity=".08" stroke="#e4bf6a" stroke-opacity=".25" stroke-dasharray="4 4"/>
-          <rect x="46" y="148" width="40" height="62" rx="5" fill="#5edbaa"/>
-          <line x1="104" y1="20" x2="104" y2="226" stroke="rgba(255,255,255,.14)"/>
-          <g fill="url(#gb)">
-            <rect x="120" y="124" width="40" height="86" rx="5"/><rect x="176" y="138" width="40" height="72" rx="5"/><rect x="232" y="118" width="40" height="92" rx="5"/>
-            <rect x="508" y="52" width="40" height="158" rx="5"/><rect x="564" y="124" width="40" height="86" rx="5"/>
-          </g>
-          <g fill="url(#gg)">
-            <rect x="300" y="24" width="40" height="186" rx="5"/><rect x="356" y="20" width="40" height="190" rx="5"/><rect x="412" y="32" width="40" height="178" rx="5"/>
-          </g>
-          <g font-family="Sora, sans-serif" font-weight="600" font-size="13" text-anchor="middle" fill="#e9ecfb">
-            <text x="66" y="141" fill="#5edbaa">31</text>
-            <text x="140" y="117">43</text><text x="196" y="131">36</text><text x="252" y="111">46</text><text x="320" y="44" fill="#1a1608">93</text><text x="376" y="40" fill="#1a1608">95</text><text x="432" y="52" fill="#1a1608">89</text><text x="528" y="45">79</text><text x="584" y="117">43</text>
-          </g>
-          <g font-family="JetBrains Mono, monospace" font-size="11" fill="#a2a9cf" text-anchor="middle">
-            <text x="66" y="228" fill="#5edbaa" font-weight="600">hoje</text>
-            <text x="140" y="228">09/11</text><text x="196" y="228">16/11</text><text x="252" y="228">23/11</text><text x="320" y="228">30/11</text><text x="376" y="228">07/12</text><text x="432" y="228">14/12</text><text x="528" y="228">21/12</text><text x="584" y="228">28/12</text>
-            <text x="362" y="252" fill="#7279a3">semanas de 2025</text>
-          </g>
-        </svg>
-        <p>Google Trends, “panetone artesanal”, Brasil. Índice semanal de 0 a 100 (100 = semana de maior interesse em 5 anos). Faixa dourada: pico de 2025. Verde: semana de 08/11/2026.</p>
+      <div>
+        <h3 class="sub">Quando as pessoas procuram panetone</h3>
+        <div class="chartbox">
+          <div class="cd">
+            <b id="days2">21</b>
+            <span id="days2-txt">dias até o pico de buscas</span>
+            <p>Em 2025, as buscas por panetone artesanal dobraram na semana de 30/11 e ficaram altas até 21/12. Tudo o que mexe no Google precisa estar pronto antes disso.</p>
+          </div>
+          <svg viewBox="0 0 640 262" role="img" aria-label="Gráfico: na semana de 08/11/2026 o índice é 31. Em 2025, 43, 36 e 46 em novembro, depois 93, 95 e 89 entre 30/11 e 14/12, 79 em 21/12 e 43 em 28/12.">
+            <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="#8b90a3">
+              <line x1="34" y1="210" x2="632" y2="210" stroke="#c9cddb"/>
+              <line x1="34" y1="110" x2="632" y2="110" stroke="#e6e8ef"/>
+              <line x1="34" y1="10" x2="632" y2="10" stroke="#e6e8ef"/>
+              <text x="26" y="214" text-anchor="end">0</text><text x="26" y="114" text-anchor="end">50</text><text x="26" y="14" text-anchor="end">100</text>
+            </g>
+            <rect x="290" y="6" width="198" height="204" fill="#f3eee2"/>
+            <rect x="46" y="148" width="40" height="62" fill="#1e7a52"/>
+            <line x1="104" y1="20" x2="104" y2="226" stroke="#dfe2ea"/>
+            <g fill="#aeb4cf">
+              <rect x="120" y="124" width="40" height="86"/><rect x="176" y="138" width="40" height="72"/><rect x="232" y="118" width="40" height="92"/>
+              <rect x="508" y="52" width="40" height="158"/><rect x="564" y="124" width="40" height="86"/>
+            </g>
+            <g fill="#1b2558">
+              <rect x="300" y="24" width="40" height="186"/><rect x="356" y="20" width="40" height="190"/><rect x="412" y="32" width="40" height="178"/>
+            </g>
+            <g font-family="IBM Plex Sans, sans-serif" font-weight="600" font-size="13" text-anchor="middle" fill="#151a36">
+              <text x="66" y="141" fill="#1e7a52">31</text>
+              <text x="140" y="117">43</text><text x="196" y="131">36</text><text x="252" y="111">46</text><text x="320" y="44" fill="#ffffff">93</text><text x="376" y="40" fill="#ffffff">95</text><text x="432" y="52" fill="#ffffff">89</text><text x="528" y="45">79</text><text x="584" y="117">43</text>
+            </g>
+            <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="#5f6579" text-anchor="middle">
+              <text x="66" y="228" fill="#1e7a52" font-weight="600">hoje</text>
+              <text x="140" y="228">09/11</text><text x="196" y="228">16/11</text><text x="252" y="228">23/11</text><text x="320" y="228">30/11</text><text x="376" y="228">07/12</text><text x="432" y="228">14/12</text><text x="528" y="228">21/12</text><text x="584" y="228">28/12</text>
+              <text x="362" y="252" fill="#8b90a3">semanas de 2025</text>
+            </g>
+          </svg>
+        </div>
+        <p class="note">Google Trends, “panetone artesanal”, Brasil. Índice semanal de 0 a 100 (100 = semana de maior interesse em 5 anos). Faixa clara: pico de 2025. Verde: semana de 08/11/2026.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="perfil">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Perfil da Empresa no Google</span>
-      <h2>Nota 4,5 com 863 avaliações. O que está em volta dela precisa de atualização.</h2>
-      <p>São 606 avaliações de cinco estrelas e 180 fotos. Comparei o que o Google mostra hoje com o que deveria mostrar no Natal.</p>
+<section id="perfil" class="alt">
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Perfil da Empresa no Google</span>
+      <h2>Nota 4,5 com 863 avaliações</h2>
+      <p>São 606 avaliações de cinco estrelas e 180 fotos. O que está em volta da nota precisa de atualização antes do Natal.</p>
     </div>
-    <div class="ba">
-      <div class="g col before">
-        <h3><span class="tag bad">Hoje</span>No Google</h3>
-        <button type="button" class="shot" data-p="11" aria-label="Ver print 11"><img src="img/ev-wix.png" alt="Perfil atual com link para o site antigo"></button>
-        <dl>
-          <div><dt>Site</dt><dd>playersim18.wixsite.com, de 2022</dd></div>
-          <div><dt>Horário</dt><dd>Quinta fechado; sexta e sábado até 21h</dd></div>
-          <div><dt>Produtos</dt><dd>Páscoa 2023 e Dia das Mães</dd></div>
-          <div><dt>Dono</dt><dd>Aparece “É proprietário desta empresa?”</dd></div>
-        </dl>
+    <div class="body">
+      <div class="tw">
+        <table class="cmp">
+          <thead><tr><th>Item</th><th class="now">Hoje no Google</th><th class="fut">Como deve ficar até 30/11</th></tr></thead>
+          <tbody>
+            <tr><td>Site</td><td class="now">playersim18.wixsite.com, de 2022</td><td>padarialaguardia.com.br, e o site do Wix fora do ar ou com aviso para o novo</td></tr>
+            <tr><td>Horário</td><td class="now">Quinta fechado; sexta e sábado até 21h</td><td>Igual no Perfil, no site e no Instagram, com horário especial em 24/12, 25/12, 31/12 e 01/01</td></tr>
+            <tr><td>Produtos</td><td class="now">Páscoa 2023 e Dia das Mães</td><td>Cada panetone e cada cesta de Natal, com foto, peso, preço e link para a página do produto</td></tr>
+            <tr><td>Dono</td><td class="now">Aparece “É proprietário desta empresa?”</td><td>Perfil reivindicado em business.google.com, com acesso da Padaria</td></tr>
+            <tr><td>Postagens</td><td class="now">Nenhuma sobre o Natal</td><td>Lançamento dos panetones, prazo de encomenda e última chamada, com botão para o WhatsApp</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="g col after">
-        <h3><span class="tag ok">Até 30/11</span>Como deve ficar</h3>
-        <dl>
-          <div><dt>Site</dt><dd>padarialaguardia.com.br, e o site do Wix fora do ar ou com aviso para o novo</dd></div>
-          <div><dt>Horário</dt><dd>Igual no Perfil, no site e no Instagram, com horário especial em 24/12, 25/12, 31/12 e 01/01</dd></div>
-          <div><dt>Produtos</dt><dd>Cada panetone e cada cesta de Natal, com foto, peso, preço e link para a página do produto</dd></div>
-          <div><dt>Dono</dt><dd>Perfil reivindicado em business.google.com, com acesso da Padaria</dd></div>
-          <div><dt>Postagens</dt><dd>Lançamento dos panetones, prazo de encomenda e última chamada, com botão para o WhatsApp</dd></div>
-        </dl>
+      <div>
+        <h3 class="sub">Recomendações complementares</h3>
+        <ul class="list">
+          <li><b>Pedir avaliações sobre o panetone</b><span>Prioridade média. Hoje as avaliações falam de salgados, café e tortas. Um QR code na embalagem pode pedir avaliação a quem comprar panetone.</span></li>
+          <li><b>Responder às avaliações recentes</b><span>Prioridade média. Uma avaliação negativa sobre atendimento, de cerca de seis meses atrás, aparece entre as primeiras sem resposta visível.</span></li>
+          <li><b>Conferir o endereço</b><span>Prioridade baixa. O Perfil escreve “R. Mendes Pímentel”. Vale conferir a grafia certa da rua.</span></li>
+        </ul>
       </div>
-    </div>
-    <div class="extra">
-      <div class="g"><span class="tag gd">Prioridade média</span><h4>Pedir avaliações sobre o panetone</h4><p>Hoje as avaliações falam de salgados, café e tortas. Um QR code na embalagem pode pedir avaliação a quem comprar panetone.</p></div>
-      <div class="g"><span class="tag gd">Prioridade média</span><h4>Responder às avaliações recentes</h4><p>Uma avaliação negativa sobre atendimento, de cerca de seis meses atrás, aparece entre as primeiras sem resposta visível.</p></div>
-      <div class="g"><span class="tag bl">Prioridade baixa</span><h4>Conferir o endereço</h4><p>O Perfil escreve “R. Mendes Pímentel”. Vale conferir a grafia certa da rua.</p></div>
     </div>
   </div>
 </section>
 
 <section id="site">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Site padarialaguardia.com.br</span>
-      <h2>O site é bem feito. Falta a página que o Google mostraria para quem busca panetone.</h2>
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Site padarialaguardia.com.br</span>
+      <h2>O site é bem feito, mas falta a página de panetones</h2>
+      <p>É a página que o Google mostraria para quem busca panetone, em Barbacena e fora dela.</p>
     </div>
-    <div class="okf">
-      <div class="g col"><h3>Já está certo</h3><ul class="ck">
-        <li>Título e descrição em todas as páginas</li>
-        <li>Sitemap e robots.txt corretos</li>
-        <li>Dados estruturados de padaria e de produto</li>
-        <li>Botão de WhatsApp em todas as páginas</li>
-        <li>2º e 3º lugar nas buscas de panetone com “Barbacena”</li>
-      </ul></div>
-      <div class="g col"><h3>Falta</h3><ul class="ck x">
-        <li>Página própria de panetones: hoje é um filtro da página inicial (<code>?categoria=panetones</code>), que o Google trata como a própria inicial</li>
-        <li>Descrição nos produtos: a do panetone de chocolate é só o nome</li>
-        <li>Preço: só o de chocolate tem (R$ 29,00); os outros estão “Sob consulta”</li>
-        <li>Páginas de entrega e de presentes para empresas</li>
-        <li>Link para o Instagram e texto em 4 das 18 imagens da página inicial</li>
-      </ul></div>
-    </div>
-
-    <h3 class="subh">Como as três páginas novas apareceriam no Google</h3>
-    <div class="serps">
-      <div class="g sr">
-        <div class="gres"><div class="u"><i>LG</i>padarialaguardia.com.br › panetones</div><div class="t">Panetone artesanal em Barbacena | Panificadora Laguardia</div><div class="d">Panetones de frutas, chocolate, gotas e limão, feitos na padaria de família do bairro São José. Encomende pelo WhatsApp e retire na loja ou receba em casa.</div></div>
-        <div class="what"><b>/panetones/</b>Como o panetone é feito, sabores com peso e preço, prazo de encomenda, retirada e entrega, perguntas frequentes e botão de encomenda.</div>
+    <div class="body">
+      <div class="pair">
+        <div><h3 class="sub">Já está certo</h3><ul class="chk yes">
+          <li>Título e descrição em todas as páginas</li>
+          <li>Sitemap e robots.txt corretos</li>
+          <li>Dados estruturados de padaria e de produto</li>
+          <li>Botão de WhatsApp em todas as páginas</li>
+          <li>2º e 3º lugar nas buscas de panetone com “Barbacena”</li>
+        </ul></div>
+        <div><h3 class="sub">Falta</h3><ul class="chk no">
+          <li>Página própria de panetones: hoje é um filtro da página inicial (<code>?categoria=panetones</code>), que o Google trata como a própria inicial</li>
+          <li>Descrição nos produtos: a do panetone de chocolate é só o nome</li>
+          <li>Preço: só o de chocolate tem (R$ 29,00); os outros estão “Sob consulta”</li>
+          <li>Páginas de entrega e de presentes para empresas</li>
+          <li>Link para o Instagram e texto em 4 das 18 imagens da página inicial</li>
+        </ul></div>
       </div>
-      <div class="g sr">
-        <div class="gres"><div class="u"><i>LG</i>padarialaguardia.com.br › entrega</div><div class="t">Entrega de panetone em Barbacena e região | Laguardia</div><div class="d">Veja as cidades atendidas, prazos e valores de frete para receber o panetone da Laguardia neste Natal.</div></div>
-        <div class="what"><b>/entrega/</b>Cidades atendidas, prazo e frete, que vêm do estudo da Frente 1, e como funciona a retirada.</div>
+      <div>
+        <h3 class="sub">Como as três páginas novas apareceriam no Google</h3>
+        <div class="serps">
+          <div class="serp">
+            <div class="gres"><div class="u"><i>LG</i>padarialaguardia.com.br › panetones</div><div class="t">Panetone artesanal em Barbacena | Panificadora Laguardia</div><div class="d">Panetones de frutas, chocolate, gotas e limão, feitos na padaria de família do bairro São José. Encomende pelo WhatsApp e retire na loja ou receba em casa.</div></div>
+            <p class="w"><b>/panetones/</b>Como o panetone é feito, sabores com peso e preço, prazo de encomenda, retirada e entrega, perguntas frequentes e botão de encomenda.</p>
+          </div>
+          <div class="serp">
+            <div class="gres"><div class="u"><i>LG</i>padarialaguardia.com.br › entrega</div><div class="t">Entrega de panetone em Barbacena e região | Laguardia</div><div class="d">Veja as cidades atendidas, prazos e valores de frete para receber o panetone da Laguardia neste Natal.</div></div>
+            <p class="w"><b>/entrega/</b>Cidades atendidas, prazo e frete, que vêm do estudo da Frente 1, e como funciona a retirada.</p>
+          </div>
+          <div class="serp">
+            <div class="gres"><div class="u"><i>LG</i>padarialaguardia.com.br › presentes-para-empresas</div><div class="t">Panetones e cestas para presentear clientes | Laguardia</div><div class="d">Presentes de fim de ano para empresas: panetones artesanais e cestas montadas pela Laguardia, com pedido em quantidade.</div></div>
+            <p class="w"><b>/presentes-para-empresas/</b>Pedido mínimo, opções de cesta, prazo e contato.</p>
+          </div>
+        </div>
+        <p class="note">Simulação de título e descrição sugeridos. O texto final depende das informações da Padaria.</p>
       </div>
-      <div class="g sr">
-        <div class="gres"><div class="u"><i>LG</i>padarialaguardia.com.br › presentes-para-empresas</div><div class="t">Panetones e cestas para presentear clientes | Laguardia</div><div class="d">Presentes de fim de ano para empresas: panetones artesanais e cestas montadas pela Laguardia, com pedido em quantidade.</div></div>
-        <div class="what"><b>/presentes-para-empresas/</b>Pedido mínimo, opções de cesta, prazo e contato.</div>
+      <div>
+        <h3 class="sub">Ajustes nas páginas que já existem</h3>
+        <ul class="list">
+          <li><b>Títulos de produto com sabor, peso e “artesanal”</b><span>Ex.: “Panetone de Frutas artesanal 450 g | Panificadora Laguardia”, com descrição de 80 a 150 palavras.</span></li>
+          <li><b>Botão de encomenda com mensagem pronta</b><span><code>wa.me/5532999756390?text=Olá! Quero encomendar o Panetone de Frutas</code></span></li>
+          <li><b>Destaque de temporada na página inicial</b><span>Bloco “Encomende seu panetone” no topo, com link para <code>/panetones/</code>.</span></li>
+          <li><b>Google Search Console</b><span>Cadastrar o site e enviar o sitemap, para acompanhar buscas, posições e cliques.</span></li>
+          <li><b>Preços visíveis</b><span>Decisão da Padaria, com base na recomendação de preço da Frente 1.</span></li>
+          <li><b>Imprensa de BH</b><span>O topo de “panetone artesanal bh” são listas da imprensa, publicadas no ano passado em 28/11 e 05/12. Se BH for viável, o contato precisa ser em novembro.</span></li>
+        </ul>
       </div>
-    </div>
-    <p class="fine">Simulação de título e descrição sugeridos. O texto final depende das informações da Padaria.</p>
-
-    <h3 class="subh">Ajustes nas páginas que já existem</h3>
-    <div class="adj">
-      <div class="g h"><b>Títulos de produto com sabor, peso e “artesanal”</b><span>Ex.: “Panetone de Frutas artesanal 450 g | Panificadora Laguardia”, com descrição de 80 a 150 palavras.</span></div>
-      <div class="g h"><b>Botão de encomenda com mensagem pronta</b><span><code>wa.me/5532999756390?text=Olá! Quero encomendar o Panetone de Frutas</code></span></div>
-      <div class="g h"><b>Destaque de temporada na página inicial</b><span>Bloco “Encomende seu panetone” no topo, com link para <code>/panetones/</code>.</span></div>
-      <div class="g h"><b>Google Search Console</b><span>Cadastrar o site e enviar o sitemap, para acompanhar buscas, posições e cliques.</span></div>
-      <div class="g h"><b>Preços visíveis</b><span>Decisão da Padaria, com base na recomendação de preço da Frente 1.</span></div>
-      <div class="g h"><b>Imprensa de BH</b><span>O topo de “panetone artesanal bh” são listas da imprensa, publicadas no ano passado em 28/11 e 05/12. Se BH for viável, o contato precisa ser em novembro.</span></div>
     </div>
   </div>
 </section>
 
-<section id="palavras">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Palavras-chave</span>
+<section id="palavras" class="alt">
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Palavras-chave</span>
       <h2>Cada página mira as buscas que as pessoas já fazem</h2>
       <p>Tirei as palavras das sugestões que o Google mostra quando alguém começa a digitar. Elas devem aparecer no título, no primeiro parágrafo e na descrição das fotos de cada página.</p>
     </div>
-    <div class="kw">
-      <div class="g"><h4>/panetones/ <span class="tag ok">comprar</span></h4><div class="chips"><span>panetone artesanal Barbacena</span><span>panetone artesanal preço</span><span>panetone artesanal onde comprar</span><span>panetone para presente de natal</span><span>panetone caseiro</span></div></div>
-      <div class="g"><h4>Sabores <span class="tag ok">comprar</span></h4><div class="chips"><span>panetone artesanal de frutas</span><span>panetone de frutas cristalizadas</span><span>panetone artesanal de chocolate</span><span>panetone caseiro com gotas de chocolate</span><span>panetone de limão siciliano</span></div></div>
-      <div class="g"><h4>Mini panetones <span class="tag gd">presentear</span></h4><div class="chips"><span>mini panetone artesanal preço</span><span>encomenda de mini panetone</span><span>mini panetone para presente</span></div></div>
-      <div class="g"><h4>/entrega/ <span class="tag bl">fora de Barbacena</span></h4><div class="chips"><span>panetone artesanal bh</span><span>panetone juiz de fora</span><span>entrega de panetone</span></div></div>
-      <div class="g"><h4>/presentes-para-empresas/ <span class="tag gd">empresas</span></h4><div class="chips"><span>panetone para presentear clientes</span><span>cesta de natal para empresas</span><span>panetone artesanal para revenda</span></div></div>
-      <div class="g"><h4>Cestas e inicial <span class="tag bl">local</span></h4><div class="chips"><span>cesta de café da manhã Barbacena MG</span><span>kit panetone para presente</span><span>padaria Barbacena</span><span>padaria bairro São José Barbacena</span><span>padaria perto de mim</span></div></div>
+    <div class="body">
+      <div>
+        <div class="tw">
+          <table class="kwt">
+            <thead><tr><th>Página</th><th>Intenção</th><th>Palavras-chave</th></tr></thead>
+            <tbody>
+              <tr><td class="q">/panetones/</td><td class="c m">Comprar</td><td>panetone artesanal Barbacena, panetone artesanal preço, panetone artesanal onde comprar, panetone para presente de natal, panetone caseiro</td></tr>
+              <tr><td class="q">Páginas dos sabores</td><td class="c m">Comprar</td><td>panetone artesanal de frutas, panetone de frutas cristalizadas, panetone artesanal de chocolate, panetone caseiro com gotas de chocolate, panetone de limão siciliano</td></tr>
+              <tr><td class="q">Mini panetones</td><td class="c m">Presentear</td><td>mini panetone artesanal preço, encomenda de mini panetone, mini panetone para presente</td></tr>
+              <tr><td class="q">/entrega/</td><td class="c m">Fora de Barbacena</td><td>panetone artesanal bh, panetone juiz de fora, entrega de panetone</td></tr>
+              <tr><td class="q">/presentes-para-empresas/</td><td class="c m">Empresas</td><td>panetone para presentear clientes, cesta de natal para empresas, panetone artesanal para revenda</td></tr>
+              <tr><td class="q">Cestas e página inicial</td><td class="c m">Local</td><td>cesta de café da manhã Barbacena MG, kit panetone para presente, padaria Barbacena, padaria bairro São José Barbacena, padaria perto de mim</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">“Panetone artesanal receita” ficou de fora: é busca de quem quer fazer em casa. “Panetone de limão siciliano” e “fermentação natural” só entram se forem verdade para a receita da Laguardia.</p>
+      </div>
     </div>
-    <p class="fine" style="font-size:14px">“Panetone artesanal receita” ficou de fora: é busca de quem quer fazer em casa. “Panetone de limão siciliano” e “fermentação natural” só entram se forem verdade para a receita da Laguardia.</p>
   </div>
 </section>
 
 <section id="prints">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Evidências</span>
-      <h2>12 prints, com a cidade e o horário de cada busca</h2>
-      <p>Clique para ver em tamanho real.</p>
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Evidências</span>
+      <h2>12 prints das buscas</h2>
+      <p>Cada print registra a cidade e o horário da busca. Clique para ver em tamanho real.</p>
     </div>
-    <div class="gal" id="gallery"></div>
-    <div class="g dl">
-      <div><b>Planilha completa</b><span>As 15 buscas, o Perfil, o site, as palavras-chave e a tendência, em Excel.</span></div>
-      <a class="btn p" href="Diagnostico_Google_SEO_Laguardia.xlsx" download>Baixar planilha .xlsx</a>
+    <div class="body">
+      <div class="gal" id="gallery"></div>
+      <div class="dlrow">
+        <div><b>Planilha completa</b><span>As 15 buscas, o Perfil, o site, as palavras-chave e a tendência, em Excel.</span></div>
+        <a class="btn" href="Diagnostico_Google_SEO_Laguardia.xlsx" download>Baixar planilha</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pendencias" class="alt">
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Pendências</span>
+      <h2>O que eu preciso de cada um</h2>
+      <p>Com os acessos da Padaria, o diagnóstico passa a ter dados reais de visitas e cliques. Marque o que já foi resolvido; a marcação fica salva neste navegador.</p>
+    </div>
+    <div class="body">
+      <div class="progress"><div class="tr"><div class="fi" id="fill"></div></div><span id="count">0 de 14 resolvidas</span></div>
+      <div class="people" id="owners">
+        <div class="person"><div class="hd"><h4>Ana Paula, via Leticia</h4><span class="due">até 18/11</span></div>
+          <label><input type="checkbox" id="c1"><span>Acesso de leitura ao Perfil da Empresa no Google, ou o nome de quem administra</span></label>
+          <label><input type="checkbox" id="c2"><span>Cadastro do site no Google Search Console, com acesso de leitura para mim</span></label>
+          <label><input type="checkbox" id="c3"><span>Confirmar se a Padaria fecha às quintas</span></label>
+          <label><input type="checkbox" id="c4"><span>Dizer se o site do Wix ainda é usado e quem tem acesso</span></label>
+          <label><input type="checkbox" id="c5"><span>Dizer quem desenvolve o site novo e até quando consegue publicar páginas</span></label>
+          <label><input type="checkbox" id="c6"><span>Confirmar se padarialaguardia.com, sem .br, é da Padaria</span></label>
+          <label><input type="checkbox" id="c7"><span>Confirmar se o panetone é de fermentação natural e se o de limão leva limão siciliano</span></label>
+          <div class="foot">Sem os dois primeiros itens, o diagnóstico fica só com posições nas buscas.</div>
+        </div>
+        <div class="col">
+          <div class="person"><div class="hd"><h4>Leticia</h4><span class="due">até 11/11</span></div>
+            <label><input type="checkbox" id="c8"><span>Incluir os pedidos ao lado na lista de informações enviada com o Plano de Trabalho</span></label>
+            <label><input type="checkbox" id="c9"><span>Aprovar este material para a reunião com a Laguardia (até 23/11)</span></label>
+          </div>
+          <div class="person"><div class="hd"><h4>Maurício</h4><span class="due">até 20/11</span></div>
+            <label><input type="checkbox" id="c10"><span>Validar as prioridades deste diagnóstico</span></label>
+            <label><input type="checkbox" id="c11"><span>Definir se o contato com a imprensa de BH fica na minha parte ou na campanha de Natal</span></label>
+          </div>
+          <div class="person"><div class="hd"><h4>Gustavo e Beatriz</h4><span class="due">até 30/11</span></div>
+            <label><input type="checkbox" id="c12"><span>Cidades atendidas, com prazo e frete, para a página de entrega</span></label>
+            <label><input type="checkbox" id="c13"><span>Recomendação de preço por gramatura</span></label>
+            <label><input type="checkbox" id="c14"><span>Confirmar se a entrega em BH é viável</span></label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="sub">Próximas etapas</h3>
+        <ol class="steps">
+          <li><b>09/11</b><span>Diagnóstico pronto</span></li>
+          <li><b>18/11</b><span>Acessos e respostas da Padaria</span></li>
+          <li><b>23/11</b><span>Diagnóstico com as 5 ações prioritárias</span></li>
+          <li><b>24/11</b><span>Apresentação na reunião com a Laguardia</span></li>
+          <li><b>30/11</b><span>Perfil corrigido e página de panetones no ar</span></li>
+          <li><b>03/12</b><span>Recomendações finais para o entregável iii</span></li>
+          <li class="pk"><b>30/11 a 14/12</b><span>Pico de buscas</span></li>
+        </ol>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="metodo">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Método e fontes</span>
+  <div class="wrap sec">
+    <div class="side">
+      <span class="lbl">Método e fontes</span>
       <h2>Como fiz o levantamento</h2>
     </div>
-    <div class="met">
-      <div class="g"><p>Buscas em 09/11/2026, das 12h00 às 12h35, em navegador sem login e com a personalização desligada, com a localização definida pelo “Atualizar local” do Google no centro de cada cidade. O Perfil foi consultado no Google Maps sem login, o que oculta parte das informações. Os resultados mudam de um dia para o outro; os prints registram esta data. O trabalho traz diagnóstico e recomendações; a execução cabe à Padaria (contrato, Cláusula 2ª, §1º).</p></div>
-      <div class="g"><ul>
+    <div class="body">
+      <p style="color:var(--muted)">Buscas em 09/11/2026, das 12h00 às 12h35, em navegador sem login e com a personalização desligada, com a localização definida pelo “Atualizar local” do Google no centro de cada cidade. O Perfil foi consultado no Google Maps sem login, o que oculta parte das informações. Os resultados mudam de um dia para o outro; os prints registram esta data. O trabalho traz diagnóstico e recomendações; a execução cabe à Padaria (contrato, Cláusula 2ª, §1º).</p>
+      <ul class="src-list">
         <li><a href="https://www.padarialaguardia.com.br/" target="_blank" rel="noopener">Site da Panificadora Laguardia</a>, <a href="https://www.padarialaguardia.com.br/robots.txt" target="_blank" rel="noopener">robots.txt</a> e <a href="https://www.padarialaguardia.com.br/sitemap.xml" target="_blank" rel="noopener">sitemap</a></li>
         <li><a href="https://playersim18.wixsite.com/panificdoralaguardia" target="_blank" rel="noopener">Site antigo no Wix</a></li>
         <li><a href="https://www.google.com/maps/search/Panificadora+Laguardia+Barbacena" target="_blank" rel="noopener">Perfil da Empresa no Google Maps</a></li>
         <li><a href="https://trends.google.com/trends/explore?date=today%205-y&amp;geo=BR&amp;q=panetone%20artesanal&amp;hl=pt-BR" target="_blank" rel="noopener">Google Trends, “panetone artesanal”, Brasil, 5 anos</a></li>
         <li>Sugestões de busca do Google, português, Brasil</li>
-      </ul></div>
+      </ul>
     </div>
   </div>
 </section>
-
-<hr class="line">
-
-<section id="pendencias">
-  <div class="wrap">
-    <div class="sh">
-      <span class="eb">Pendências</span>
-      <h2>O que eu preciso de cada um para fechar a entrega</h2>
-      <p>Com os acessos da Padaria, o diagnóstico passa a ter dados reais de visitas e cliques. Marque o que já foi resolvido; a marcação fica salva neste navegador.</p>
-    </div>
-    <div class="g prog"><div class="track"><div class="fill" id="fill"></div></div><span id="count">0 de 14 resolvidas</span></div>
-    <div class="own" id="owners">
-      <article class="g ow"><div class="hd"><h3>Ana Paula, via Leticia</h3><span class="tag gd">até 18/11</span></div>
-        <label><input type="checkbox" id="c1"><span>Acesso de leitura ao Perfil da Empresa no Google, ou o nome de quem administra</span></label>
-        <label><input type="checkbox" id="c2"><span>Cadastro do site no Google Search Console, com acesso de leitura para mim</span></label>
-        <label><input type="checkbox" id="c3"><span>Confirmar se a Padaria fecha às quintas</span></label>
-        <label><input type="checkbox" id="c4"><span>Dizer se o site do Wix ainda é usado e quem tem acesso</span></label>
-        <label><input type="checkbox" id="c5"><span>Dizer quem desenvolve o site novo e até quando consegue publicar páginas</span></label>
-        <label><input type="checkbox" id="c6"><span>Confirmar se padarialaguardia.com, sem .br, é da Padaria</span></label>
-        <label><input type="checkbox" id="c7"><span>Confirmar se o panetone é de fermentação natural e se o de limão leva limão siciliano</span></label>
-        <p class="note">Sem os dois primeiros itens, o diagnóstico fica só com posições nas buscas.</p>
-      </article>
-      <div class="stack">
-        <article class="g ow"><div class="hd"><h3>Leticia</h3><span class="tag gd">até 11/11</span></div>
-          <label><input type="checkbox" id="c8"><span>Incluir os pedidos ao lado na lista de informações enviada com o Plano de Trabalho</span></label>
-          <label><input type="checkbox" id="c9"><span>Aprovar este material para a reunião com a Laguardia (até 23/11)</span></label>
-        </article>
-        <article class="g ow"><div class="hd"><h3>Maurício</h3><span class="tag gd">até 20/11</span></div>
-          <label><input type="checkbox" id="c10"><span>Validar as prioridades deste diagnóstico</span></label>
-          <label><input type="checkbox" id="c11"><span>Definir se o contato com a imprensa de BH fica na minha parte ou na campanha de Natal</span></label>
-        </article>
-        <article class="g ow"><div class="hd"><h3>Gustavo e Beatriz</h3><span class="tag gd">até 30/11</span></div>
-          <label><input type="checkbox" id="c12"><span>Cidades atendidas, com prazo e frete, para a página de entrega</span></label>
-          <label><input type="checkbox" id="c13"><span>Recomendação de preço por gramatura</span></label>
-          <label><input type="checkbox" id="c14"><span>Confirmar se a entrega em BH é viável</span></label>
-        </article>
-      </div>
-    </div>
-
-    <h3 class="subh">Próximas etapas</h3>
-    <div class="g tl">
-      <div class="done"><b>09/11</b><span>Diagnóstico pronto</span></div>
-      <div><b>18/11</b><span>Acessos e respostas da Padaria</span></div>
-      <div><b>23/11</b><span>Diagnóstico com as 5 ações prioritárias</span></div>
-      <div><b>24/11</b><span>Apresentação na reunião com a Laguardia</span></div>
-      <div><b>30/11</b><span>Perfil corrigido e página de panetones no ar</span></div>
-      <div><b>03/12</b><span>Recomendações finais para o entregável iii</span></div>
-      <div class="pk"><b>30/11 a 14/12</b><span>Pico de buscas</span></div>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <footer>
@@ -728,10 +620,9 @@ footer img{height:30px;width:auto;display:block}
     <span>Antonio · Frente 2 · Projeto Laguardia · SKEMA Consultoria Jr. × La Guardia Panificadora</span>
   </div>
 </footer>
-</div>
 
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbt">
-  <div class="top"><span id="lbt"></span><button type="button" class="btn" id="lbx">Fechar</button></div>
+  <div class="top"><span id="lbt"></span><button type="button" class="btn ghost" id="lbx">Fechar</button></div>
   <div class="sc"><img id="lbi" alt=""></div>
 </div>
 
@@ -751,9 +642,9 @@ const PRINTS = [
   ["12","Site antigo no Wix","Preços de Natal de 2022"]
 ];
 document.getElementById('gallery').innerHTML = PRINTS.map(([n,t,s]) =>
-  `<button type="button" class="g h" data-p="${n}"><img src="prints/${n}_t.jpg" alt="Print ${n}: ${t}"><b>Print ${n} · ${t}</b><span>${s}</span></button>`).join('');
+  `<button type="button" data-p="${n}"><img src="prints/${n}_t.jpg" alt="Print ${n}: ${t}"><b>${n} · ${t}</b><span>${s}</span></button>`).join('');
 
-/* tabela de buscas: [busca, cidade, mapa, resultados, quem aparece no topo, print, aparece?] */
+/* [busca, cidade, mapa, resultados, quem aparece no topo, print, aparece] */
 const BQ = [
   ["Padaria Laguardia","","Ficha","1º a 9º","Só a Padaria: Instagram, site, Facebook e o site antigo","01",1],
   ["padaria Barbacena","","1º","8º","Padaria City Pão, Empresas BQ, Padaria Top, Padaria Jardim","02",1],
@@ -773,18 +664,18 @@ const RG = [
   ["panetone artesanal","Conselheiro Lafaiete","–","–","Receitas e vídeos","09",0],
   ["panetone artesanal bh","Belo Horizonte","–","–","Listas de SouBH, Revista Encontro, Rádio Itatiaia e O Tempo; no mapa, Amoz, Madame du Blé, O Granulado","10",0]
 ];
-function rows(list){
-  const head = `<div class="tr th"><span>Busca</span><span>Mapa</span><span>Resultados</span><span>Quem aparece no topo</span><span>Laguardia</span><span>Print</span></div>`;
-  return head + list.map(([q,c,m,r,w,p,y]) => `<div class="tr">
-    <span class="q">${q}${c?`<small>${c}</small>`:''}</span>
-    <span class="pp"><span class="pos${m==='–'?' no':''}" data-l="Mapa">${m}</span><span class="pos${r==='–'?' no':''}" data-l="Resultados">${r}</span></span>
-    <span class="who">${w}</span>
-    <span class="st"><span class="pill ${y?'y':'n'}">${y?'Aparece':'Não aparece'}</span></span>
-    <span class="pr">${p?`<button type="button" class="pbtn" data-p="${p}">Print ${p}</button>`:'<span class="np">sem print</span>'}</span>
-  </div>`).join('');
+function table(list){
+  return `<table class="bq"><thead><tr><th>Busca</th><th>Laguardia</th><th>Mapa · Resultados</th><th>Quem aparece no topo</th><th>Print</th></tr></thead><tbody>` +
+    list.map(([q,c,m,r,w,p,y]) => `<tr>
+      <td class="q">${q}${c?`<small>${c}</small>`:''}</td>
+      <td><span class="st ${y?'y':'n'}">${y?'Aparece':'Não aparece'}</span></td>
+      <td class="c m">${m} · ${r}</td>
+      <td class="m">${w}</td>
+      <td>${p?`<button type="button" class="pl" data-p="${p}">Print ${p}</button>`:'<span class="np">sem print</span>'}</td>
+    </tr>`).join('') + `</tbody></table>`;
 }
-document.getElementById('p-bq').innerHTML = rows(BQ);
-document.getElementById('p-rg').innerHTML = rows(RG);
+document.getElementById('p-bq').innerHTML = table(BQ);
+document.getElementById('p-rg').innerHTML = table(RG);
 
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 tabs.forEach(t => t.addEventListener('click', () => {
@@ -808,17 +699,17 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape' && !lb.hidden)
 
 /* menu do celular */
 const burger = document.getElementById('burger'), menu = document.getElementById('menu');
-burger.addEventListener('click', () => { const o = menu.classList.toggle('open'); burger.setAttribute('aria-expanded', o); burger.textContent = o ? 'Fechar' : 'Menu'; });
-menu.addEventListener('click', e => { if(e.target.closest('a') && menu.classList.contains('open')){ menu.classList.remove('open'); burger.setAttribute('aria-expanded', false); burger.textContent = 'Menu'; } });
+function setMenu(o){ menu.classList.toggle('open', o); burger.setAttribute('aria-expanded', o); burger.textContent = o ? 'Fechar' : 'Menu'; }
+burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+menu.addEventListener('click', e => { if(e.target.closest('a')) setMenu(false); });
 
 /* menu destaca a seção visível */
 const links = [...menu.querySelectorAll('a')];
-const secs = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
 if ('IntersectionObserver' in window){
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if(e.isIntersecting){ links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }
-  }), {rootMargin:'-40% 0px -55% 0px'});
-  secs.forEach(s => io.observe(s));
+    if(e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+  }), {rootMargin:'-35% 0px -60% 0px'});
+  links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if(s) io.observe(s); });
 }
 
 /* contagem até o pico (30/11/2026) */
@@ -831,8 +722,8 @@ if ('IntersectionObserver' in window){
   else if (d === 1) { v = '1'; t = 'dia até o pico de buscas'; }
   else if (today <= end) { v = 'Agora'; t = 'estamos no pico de buscas'; }
   else { v = '2026'; t = 'pico de buscas encerrado'; }
-  document.getElementById('days').textContent = v; document.getElementById('days2').textContent = v;
-  document.getElementById('days-txt').textContent = t.charAt(0).toUpperCase() + t.slice(1); document.getElementById('days2-txt').textContent = t;
+  ['days','days2'].forEach(id => document.getElementById(id).textContent = v);
+  ['days-txt','days2-txt'].forEach(id => document.getElementById(id).textContent = t);
 })();
 
 /* pendências: marcação salva só neste navegador */
@@ -846,11 +737,6 @@ function update(){
 }
 boxes.forEach(b => { b.checked = !!saved[b.id]; b.addEventListener('change', () => { saved[b.id] = b.checked; try { localStorage.setItem('lg-pend', JSON.stringify(saved)); } catch(e) {} update(); }); });
 update();
-
-/* barra de leitura */
-const bar = document.getElementById('bar');
-function prog(){ const h = document.documentElement; bar.style.width = (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight) * 100) + '%'; }
-addEventListener('scroll', prog, {passive:true}); prog();
 </script>
 
 </body>
