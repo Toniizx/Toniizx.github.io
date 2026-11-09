@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Prints das buscas · Laguardia</title>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--navy:#1b2558;--on-navy:#f0f2fb;--on-navy-2:#b8bedf;--gold:#a7822a;--bg:#f5f6f9;--card:#fff;--ink:#1b2558;--text:#2b3047;--muted:#646a82;--line:#e1e4ec;--soft:#eef0f5;--display:"Montserrat",ui-sans-serif,system-ui,sans-serif;--body:"Source Sans 3",ui-sans-serif,system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--navy:#131a42;--gold:#ddb963;--bg:#0e1330;--card:#171e43;--ink:#e9ecfa;--text:#d9ddf0;--muted:#a1a7c9;--line:#2b3466;--soft:#1f2851;color-scheme:dark}}
+:root[data-theme="dark"]{--navy:#131a42;--gold:#ddb963;--bg:#0e1330;--card:#171e43;--ink:#e9ecfa;--text:#d9ddf0;--muted:#a1a7c9;--line:#2b3466;--soft:#1f2851;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy)}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+header{background:var(--navy)}header .wrap{display:flex;align-items:center;gap:14px;min-height:64px}
+header img{height:34px;width:auto;display:block}
+header a{margin-left:auto;font-family:var(--display);font-weight:700;font-size:13.5px;color:var(--on-navy);text-decoration:none;border:1px solid var(--on-navy-2);border-radius:6px;padding:7px 12px}
+h1{font-family:var(--display);color:var(--ink);font-size:clamp(26px,3.6vw,34px);margin:44px 0 8px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin-bottom:24px}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;padding-bottom:56px}
+.s{display:grid;gap:8px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;cursor:zoom-in;font:inherit;color:inherit}
+.s:hover{border-color:var(--ink)}
+.s img{width:100%;aspect-ratio:1/0.95;object-fit:cover;object-position:top;border-radius:6px;border:1px solid var(--line);display:block;background:var(--soft)}
+.s b{font-family:var(--display);font-size:13.5px;color:var(--ink)}.s span{font-size:13.5px;color:var(--muted)}
+.lb[hidden]{display:none}.lb{position:fixed;inset:0;z-index:100;background:rgba(9,12,30,.9);display:grid;grid-template-rows:auto minmax(0,1fr);padding:calc(env(safe-area-inset-top,0px) + 12px) max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 12px) max(12px,env(safe-area-inset-left,0px))}
+.lb .bar{display:flex;align-items:center;gap:12px;color:#eef0fb;padding-bottom:10px;max-width:900px;width:100%;margin:0 auto;font-family:var(--display);font-weight:600;font-size:14.5px}
+.lb .bar span{flex:1;min-width:0}.lb button{font-family:var(--display);font-weight:700;font-size:13px;border:0;border-radius:6px;padding:8px 14px;background:#eef0fb;color:#1b2558;cursor:pointer}
+.lb .sc{overflow:auto;max-width:900px;width:100%;margin:0 auto;border-radius:8px}.lb img{width:100%;height:auto;display:block}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header><div class="wrap"><img src="img/skema-white.png" alt="SKEMA Consultoria Jr."><a href="index.html">← Voltar ao resumo</a></div></header>
+<main class="wrap">
+<h1>Prints das buscas</h1>
+<p class="sub">09/11/2026, navegador sem login, com a localização definida em cada cidade. Clique para ver em tamanho real.</p>
+<div class="g" id="g"></div>
+</main>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbt"><div class="bar"><span id="lbt"></span><button type="button" id="lbx">Fechar</button></div><div class="sc"><img id="lbi" alt=""></div></div>
+<script>
+const P=[["01","Padaria Laguardia","Barbacena · ficha com produtos de 2023"],["02","padaria Barbacena","Barbacena · 1º no mapa, site em 8º"],["03","panetone Barbacena","Barbacena · site em 2º"],["04","panetone artesanal Barbacena","Barbacena · site em 3º"],["05","panetone artesanal","Barbacena · só receitas"],["06","cesta de café da manhã Barbacena","Barbacena · não aparece"],["07","panetone artesanal","Juiz de Fora · não aparece"],["08","panetone artesanal","São João del-Rei · não aparece"],["09","panetone artesanal","Conselheiro Lafaiete · não aparece"],["10","panetone artesanal bh","Belo Horizonte · listas da imprensa"],["11","Perfil no Google Maps","Link para o site antigo e horário"],["12","Site antigo no Wix","Preços de Natal de 2022"]];
+document.getElementById('g').innerHTML=P.map(([n,t,s])=>`<button type="button" class="s" data-p="${n}"><img src="prints/${n}_t.jpg" alt="Print ${n}: ${t}"><b>Print ${n} · ${t}</b><span>${s}</span></button>`).join('');
+const lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbt=document.getElementById('lbt');let back=null;
+function open_(n){const p=P.find(x=>x[0]===n);if(!p)return;back=document.activeElement;lbi.src=`prints/${n}.jpg`;lbi.alt=`Print ${n}: ${p[1]}`;lbt.textContent=`Print ${n} · ${p[1]} · ${p[2]}`;lb.hidden=false;document.getElementById('lbx').focus();}
+function close_(){lb.hidden=true;lbi.removeAttribute('src');if(back)back.focus();}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b)open_(b.dataset.p);});
+document.getElementById('lbx').addEventListener('click',close_);lb.addEventListener('click',e=>{if(e.target===lb)close_();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!lb.hidden)close_();});
+</script>
+
+</body>
+</html>
