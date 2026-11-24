@@ -277,6 +277,16 @@ code{font-family:var(--mono);font-size:.86em;color:var(--blue);background:var(--
 .ow input:checked::after{content:"";width:10px;height:6px;border:2px solid #07261a;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
 .ow input:checked + span{color:var(--dim);text-decoration:line-through}
 .ow .note{font-size:13.5px;color:var(--gold);margin-top:8px}
+.log{display:grid;gap:0}
+.log .it{display:grid;grid-template-columns:110px minmax(0,1fr);gap:22px;padding:22px 24px;border-top:1px solid var(--stroke)}
+.log .it:first-child{border-top:0}
+.log .d{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--gold);padding-top:2px}
+.log .d small{display:block;margin-top:6px}
+.log h3{font-size:17px;font-weight:600;margin-bottom:6px}
+.log p{font-size:15px;color:var(--muted)}
+.log ul{margin:8px 0 0;padding-left:18px;font-size:15px;color:var(--muted);display:grid;gap:4px}
+.log ul b{color:var(--text);font-weight:600}
+@media (max-width:680px){.log .it{grid-template-columns:1fr;gap:6px;padding:18px}}
 .tl{display:grid;grid-template-columns:repeat(7,1fr);gap:0;padding:26px 22px 22px;position:relative}
 .tl > div{position:relative;display:grid;gap:4px;padding:26px 10px 0 0;min-width:0}
 .tl > div::before{content:"";position:absolute;top:6px;left:0;right:0;height:2px;background:var(--stroke-2)}
@@ -347,6 +357,7 @@ footer img{height:30px;width:auto;display:block}
     </a>
     <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="menu">Menu</button>
     <nav class="menu" id="menu" aria-label="Seções">
+      <a href="#andamento">Andamento</a>
       <a href="#achados">Achados</a>
       <a href="#acoes">Ações</a>
       <a href="#buscas">Buscas</a>
@@ -417,6 +428,37 @@ footer img{height:30px;width:auto;display:block}
 
 <hr class="line">
 
+<section id="andamento">
+  <div class="wrap">
+    <div class="sh">
+      <span class="eb">Andamento</span>
+      <h2>O que eu já fiz, por data</h2>
+      <p>Registro do que fiz na minha parte e do que mudou com as respostas da Padaria. O mais recente fica em cima.</p>
+    </div>
+    <div class="g log">
+      <div class="it"><div class="d">24/11<small><span class="tag ok">Atualizado</span></small></div><div><h3>Respostas da Padaria incluídas no diagnóstico</h3>
+        <ul><li><b>A Padaria abre às quintas.</b> O Google mostra fechado, então a ação é corrigir a quinta no Perfil.</li>
+        <li><b>O panetone não é de fermentação natural</b> (a receita ainda está em desenvolvimento). Tirei “fermentação natural” e “massa madre” das palavras-chave e dos textos sugeridos.</li></ul></div></div>
+      <div class="it"><div class="d">23/11<small><span class="tag ok">Concluído</span></small></div><div><h3>Ações rápidas de Natal · parte do Google</h3>
+        <p>Escrevi a parte do Google da página de ações rápidas, que junto com a parte de WhatsApp e Instagram da Catarina:</p>
+        <ul><li>Confirmar em business.google.com que a Padaria é dona do Perfil.</li>
+        <li>Trocar o link do site do Wix para padarialaguardia.com.br.</li>
+        <li>Corrigir o horário de quinta e cadastrar o horário especial de 24/12, 25/12, 31/12 e 01/01.</li>
+        <li>Cadastrar cada panetone e cesta de Natal como produto, com foto, peso, preço e link, e apagar os produtos de 2023.</li>
+        <li>Postar no Perfil “Panetones de Natal: encomende pelo WhatsApp”.</li>
+        <li>Subir 5 fotos novas dos panetones e da vitrine de Natal.</li></ul></div></div>
+      <div class="it"><div class="d">23/11<small><span class="tag ok">Concluído</span></small></div><div><h3>Análise da plataforma do site</h3>
+        <ul><li><b>Feito sob medida,</b> com código próprio (não é Wix, Shopify, Nuvemshop nem WordPress). Dá para fazer tudo o que recomendei, mas cada mudança depende de quem desenvolveu o site.</li>
+        <li><b>Sem carrinho e sem calculadora de frete.</b> O site avisa que a loja online está em preparo; hoje o pedido é pelo WhatsApp ou telefone.</li>
+        <li><b>WhatsApp em todas as páginas, sem link para o Instagram.</b> Passei para a Catarina, que cuida do caminho até a compra.</li></ul></div></div>
+      <div class="it"><div class="d">13/11<small><span class="tag ok">Concluído</span></small></div><div><h3>Palavras-chave do panetone artesanal e mapa para o site</h3>
+        <p>Organizei as buscas por intenção (comprar, presentear, fora de Barbacena, empresas, local) e liguei cada grupo a uma página do site.</p></div></div>
+      <div class="it"><div class="d">09/11<small><span class="tag ok">Concluído</span></small></div><div><h3>Diagnóstico da Padaria no Google</h3>
+        <p>15 buscas em Barbacena e em mais quatro cidades, 12 prints, auditoria do Perfil da Empresa, análise de SEO do site, tendência de buscas e as 5 ações prioritárias.</p></div></div>
+    </div>
+  </div>
+</section>
+
 <section id="achados">
   <div class="wrap">
     <div class="sh">
@@ -440,7 +482,7 @@ footer img{height:30px;width:auto;display:block}
     </div>
     <div class="mini">
       <div class="g"><h4>Fora de Barbacena, ausente</h4><p>Juiz de Fora, São João del-Rei, Conselheiro Lafaiete e BH: nenhuma busca por panetone mostra a Padaria.</p></div>
-      <div class="g"><h4>Horário de quinta diverge</h4><p>No Google, quinta-feira fechado. No site, aberto de segunda a sábado.</p></div>
+      <div class="g"><h4>Google mostra quinta fechada</h4><p>A Padaria abre às quintas (confirmado em 24/11), mas o Perfil no Google diz que fecha.</p></div>
       <div class="g"><h4>Produtos de 2023 no Perfil</h4><p>Páscoa 2023 e Dia das Mães, sem nenhum panetone de Natal cadastrado.</p></div>
     </div>
   </div>
@@ -532,7 +574,7 @@ footer img{height:30px;width:auto;display:block}
         <button type="button" class="shot" data-p="11" aria-label="Ver print 11"><img src="img/ev-wix.png" alt="Perfil atual com link para o site antigo"></button>
         <dl>
           <div><dt>Site</dt><dd>playersim18.wixsite.com, de 2022</dd></div>
-          <div><dt>Horário</dt><dd>Quinta fechado; sexta e sábado até 21h</dd></div>
+          <div><dt>Horário</dt><dd>Quinta fechado, mas a Padaria abre; sexta e sábado até 21h, no site 20h30</dd></div>
           <div><dt>Produtos</dt><dd>Páscoa 2023 e Dia das Mães</dd></div>
           <div><dt>Dono</dt><dd>Aparece “É proprietário desta empresa?”</dd></div>
         </dl>
@@ -541,7 +583,7 @@ footer img{height:30px;width:auto;display:block}
         <h3><span class="tag ok">Até 30/11</span>Como deve ficar</h3>
         <dl>
           <div><dt>Site</dt><dd>padarialaguardia.com.br, e o site do Wix fora do ar ou com aviso para o novo</dd></div>
-          <div><dt>Horário</dt><dd>Igual no Perfil, no site e no Instagram, com horário especial em 24/12, 25/12, 31/12 e 01/01</dd></div>
+          <div><dt>Horário</dt><dd>Quinta aberta e o mesmo horário no Perfil, no site e no Instagram, com horário especial em 24/12, 25/12, 31/12 e 01/01</dd></div>
           <div><dt>Produtos</dt><dd>Cada panetone e cada cesta de Natal, com foto, peso, preço e link para a página do produto</dd></div>
           <div><dt>Dono</dt><dd>Perfil reivindicado em business.google.com, com acesso da Padaria</dd></div>
           <div><dt>Postagens</dt><dd>Lançamento dos panetones, prazo de encomenda e última chamada, com botão para o WhatsApp</dd></div>
@@ -576,7 +618,15 @@ footer img{height:30px;width:auto;display:block}
         <li>Preço: só o de chocolate tem (R$ 29,00); os outros estão “Sob consulta”</li>
         <li>Páginas de entrega e de presentes para empresas</li>
         <li>Link para o Instagram e texto em 4 das 18 imagens da página inicial</li>
+        <li>Carrinho e calculadora de frete: a loja online ainda está em preparo e o pedido é pelo WhatsApp ou telefone</li>
       </ul></div>
+    </div>
+
+    <h3 class="subh">A plataforma do site</h3>
+    <div class="adj">
+      <div class="g"><b>Feito sob medida</b><span>Código próprio, sem Wix, Shopify, Nuvemshop ou WordPress. Permite tudo o que recomendo, mas cada mudança depende de quem desenvolveu o site.</span></div>
+      <div class="g"><b>Compra pelo WhatsApp</b><span>Não tem carrinho nem cálculo de frete. Para o Natal, o botão “Encomendar” com mensagem pronta é o caminho de compra.</span></div>
+      <div class="g"><b>Receita do panetone</b><span>A página lista mistura para panetone e fermento biológico, e a Padaria confirmou que não é fermentação natural. “Artesanal” e “feito na padaria” continuam valendo.</span></div>
     </div>
 
     <h3 class="subh">Como as três páginas novas apareceriam no Google</h3>
@@ -623,7 +673,7 @@ footer img{height:30px;width:auto;display:block}
       <div class="g"><h4>/presentes-para-empresas/ <span class="tag gd">empresas</span></h4><div class="chips"><span>panetone para presentear clientes</span><span>cesta de natal para empresas</span><span>panetone artesanal para revenda</span></div></div>
       <div class="g"><h4>Cestas e inicial <span class="tag bl">local</span></h4><div class="chips"><span>cesta de café da manhã Barbacena MG</span><span>kit panetone para presente</span><span>padaria Barbacena</span><span>padaria bairro São José Barbacena</span><span>padaria perto de mim</span></div></div>
     </div>
-    <p class="fine" style="font-size:14px">“Panetone artesanal receita” ficou de fora: é busca de quem quer fazer em casa. “Panetone de limão siciliano” e “fermentação natural” só entram se forem verdade para a receita da Laguardia.</p>
+    <p class="fine" style="font-size:14px">“Panetone artesanal receita” ficou de fora: é busca de quem quer fazer em casa. “Fermentação natural” também saiu, porque a Padaria confirmou que o panetone não é. “Panetone de limão siciliano” só entra se a Padaria confirmar o tipo de limão.</p>
   </div>
 </section>
 
@@ -675,11 +725,11 @@ footer img{height:30px;width:auto;display:block}
       <article class="g ow"><div class="hd"><h3>Ana Paula, via Leticia</h3><span class="tag gd">até 18/11</span></div>
         <label><input type="checkbox" id="c1"><span>Acesso de leitura ao Perfil da Empresa no Google, ou o nome de quem administra</span></label>
         <label><input type="checkbox" id="c2"><span>Cadastro do site no Google Search Console, com acesso de leitura para mim</span></label>
-        <label><input type="checkbox" id="c3"><span>Confirmar se a Padaria fecha às quintas</span></label>
+        <label><input type="checkbox" id="c3" checked><span>Confirmar se a Padaria fecha às quintas · respondido em 24/11: abre</span></label>
         <label><input type="checkbox" id="c4"><span>Dizer se o site do Wix ainda é usado e quem tem acesso</span></label>
         <label><input type="checkbox" id="c5"><span>Dizer quem desenvolve o site novo e até quando consegue publicar páginas</span></label>
         <label><input type="checkbox" id="c6"><span>Confirmar se padarialaguardia.com, sem .br, é da Padaria</span></label>
-        <label><input type="checkbox" id="c7"><span>Confirmar se o panetone é de fermentação natural e se o de limão leva limão siciliano</span></label>
+        <label><input type="checkbox" id="c7" checked><span>Confirmar se o panetone é de fermentação natural · respondido em 24/11: não é</span></label>
         <p class="note">Sem os dois primeiros itens, o diagnóstico fica só com posições nas buscas.</p>
       </article>
       <div class="stack">
@@ -703,7 +753,7 @@ footer img{height:30px;width:auto;display:block}
     <div class="g tl">
       <div class="done"><b>09/11</b><span>Diagnóstico pronto</span></div>
       <div><b>18/11</b><span>Acessos e respostas da Padaria</span></div>
-      <div><b>23/11</b><span>Diagnóstico com as 5 ações prioritárias</span></div>
+      <div class="done"><b>23/11</b><span>Diagnóstico com as 5 ações prioritárias</span></div>
       <div><b>24/11</b><span>Apresentação na reunião com a Laguardia</span></div>
       <div><b>30/11</b><span>Perfil corrigido e página de panetones no ar</span></div>
       <div><b>03/12</b><span>Recomendações finais para o entregável iii</span></div>
@@ -836,7 +886,7 @@ function update(){
   document.getElementById('count').textContent = `${done} de ${boxes.length} resolvidas`;
   document.getElementById('fill').style.width = (done / boxes.length * 100) + '%';
 }
-boxes.forEach(b => { b.checked = !!saved[b.id]; b.addEventListener('change', () => { saved[b.id] = b.checked; try { localStorage.setItem('lg-pend', JSON.stringify(saved)); } catch(e) {} update(); }); });
+boxes.forEach(b => { b.checked = (b.id in saved) ? !!saved[b.id] : b.defaultChecked; b.addEventListener('change', () => { saved[b.id] = b.checked; try { localStorage.setItem('lg-pend', JSON.stringify(saved)); } catch(e) {} update(); }); });
 update();
 
 /* barra de leitura */
